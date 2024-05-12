@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.jetpack.compose.github.github.cruise"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -71,6 +71,14 @@ dependencies {
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     implementation(libs.androidx.material3.android)
+    implementation(libs.retrofit)
+    implementation(libs.converter.jackson)
+    implementation(libs.converter.moshi)
+    implementation(libs.logging.interceptor)
+    implementation(libs.moshi)
+    implementation(libs.moshi.kotlin)
+    implementation(libs.mockk)
+    testImplementation(libs.junit.jupiter)
     ksp(libs.room.compiler)
     implementation(libs.androidx.lifecycle.runtimeCompose)
     implementation(libs.androidx.lifecycle.viewModelCompose)

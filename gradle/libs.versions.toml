@@ -15,6 +15,7 @@ androidxTestExt = "1.1.4"
 androidxTestRules = "1.5.0"
 hilt = "2.44.2"
 junit4 = "4.13.2"
+junitJupiter = "5.8.1"
 kotlin = "1.8.10"
 kotlinxCoroutines = "1.6.4"
 ksp = "1.8.10-1.0.9"
@@ -22,6 +23,13 @@ room = "2.5.0-rc01"
 timber = "5.0.1"
 truth = "1.1.2"
 material3Android = "1.2.1"
+retrofit = "2.6.0"
+converterJackson = "2.6.0"
+converterMoshi = "2.7.0"
+loggingInterceptor = "4.8.1"
+moshi = "1.12.0"
+moshiKotlin = "1.12.0"
+mockk = "1.12.0"
 
 [libraries]
 accompanist-appcompat-theme = { group = "com.google.accompanist", name = "accompanist-appcompat-theme", version.ref = "accompanist" }
@@ -56,6 +64,7 @@ google-truth = { group = "com.google.truth", name = "truth", version.ref = "trut
 hilt-android-core = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junitJupiter" }
 junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
@@ -67,6 +76,13 @@ timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "tim
 
 # Dependencies of the included build-logic
 androidx-material3-android = { group = "androidx.compose.material3", name = "material3-android", version.ref = "material3Android" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+converter-jackson = { group = "com.squareup.retrofit2", name = "converter-jackson", version.ref = "converterJackson" }
+converter-moshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "converterMoshi" }
+logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "loggingInterceptor" }
+moshi = { group = "com.squareup.moshi", name = "moshi", version.ref = "moshi" }
+moshi-kotlin = { group = "com.squareup.moshi", name = "moshi-kotlin", version.ref = "moshiKotlin" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

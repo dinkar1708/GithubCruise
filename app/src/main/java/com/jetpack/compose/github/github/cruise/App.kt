@@ -1,7 +1,7 @@
 package com.jetpack.compose.github.github.cruise
 
 import android.app.Application
-import com.jetpack.compose.github.github.cruise.BuildConfig.*
+import com.jetpack.compose.github.github.cruise.BuildConfig.DEBUG
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
