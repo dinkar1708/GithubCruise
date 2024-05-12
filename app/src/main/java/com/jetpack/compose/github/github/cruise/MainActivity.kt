@@ -5,26 +5,25 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.jetpack.compose.github.github.cruise.ui.GithubCruiseRootComposable
 import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.internal.GeneratedComponent
 
+@AndroidEntryPoint
+// https://developer.android.com/training/dependency-injection/hilt-android?_gl@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             GithubCruiseTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                GithubCruiseRootComposable()
             }
         }
     }
