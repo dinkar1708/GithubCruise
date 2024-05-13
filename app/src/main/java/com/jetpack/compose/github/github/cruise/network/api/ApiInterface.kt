@@ -1,7 +1,10 @@
 package com.jetpack.compose.github.github.cruise.network.api
 
 import com.jetpack.compose.github.github.cruise.domain.model.SearchUser
+import com.jetpack.compose.github.github.cruise.domain.model.UserProfile
+import com.jetpack.compose.github.github.cruise.domain.model.UserRepo
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 /**
@@ -14,4 +17,14 @@ interface APIInterface {
         @Query("q") userName: String, @Query("page") page: Int,
         @Query("per_page") pageSize: Int,
     ): SearchUser
+
+    @GET("/users/{userName}")
+    suspend fun getUserProfile(@Path("userName") userName: String): UserProfile
+
+    @GET("/users/{userName}/repos?q=page=1&per_page=2")
+    suspend fun getUserRepositories(
+        @Path("userName") userName: String, @Query("page") page: Int,
+        @Query("per_page") pageSize: Int,
+    ): List<UserRepo>
+
 }
