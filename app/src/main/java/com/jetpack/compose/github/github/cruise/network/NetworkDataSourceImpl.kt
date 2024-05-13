@@ -9,7 +9,10 @@ import com.jetpack.compose.github.github.cruise.network.api.APIInterface
 class NetworkDataSourceImpl(
     private val api: APIInterface
 ) : NetworkDataSource {
-    override suspend fun searchUser(userName: String): SearchUser {
-        return api.getSearchUsers(userName)
+    override suspend fun searchUser(
+        userName: String, page: Int,
+        pageSize: Int,
+    ): SearchUser {
+        return api.getSearchUsers(userName, page, pageSize)
     }
 }
