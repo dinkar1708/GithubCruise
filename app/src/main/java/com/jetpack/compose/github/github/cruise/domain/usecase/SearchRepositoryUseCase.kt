@@ -10,7 +10,9 @@ import javax.inject.Inject
  */
 class SearchRepositoryUseCase @Inject constructor(private val searchRepository: SearchRepository) {
     suspend fun searchUsers(
-        userName: String
+        userName: String,
+        page: Int,
+        pageSize: Int,
     ): Flow<SearchUser> =
-        searchRepository.searchUsers(userName = userName)
+        searchRepository.searchUsers(userName = userName, page = page, pageSize = pageSize)
 }

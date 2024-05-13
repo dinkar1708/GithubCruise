@@ -8,6 +8,8 @@ import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -51,14 +53,31 @@ class SearchRepositoryImplTest {
         runTest {
             val userName = "dinkar1708"
             // set mock data for user name
-            coEvery { mockNetworkDataSource.searchUser(userName) } returns searchUser
+            coEvery { mockNetworkDataSource.searchUser(userName = userName, page = 1, pageSize = 10) } returns searchUser
             // now call mock api
-            val resultFlow = repository.searchUsers(userName)
+            val resultFlow = repository.searchUsers(userName = userName, page = 1, pageSize = 10)
             val result = resultFlow.single()
             // for same user mock response and api response must be same
             assertEquals(searchUser, result)
             // incomplete result
             assertTrue(searchUser.incompleteResults)
+        }
+    }
+
+    @Test
+    fun `test search Users API call fails`() {
+        runTest {
+            // Given
+            coEvery { mockNetworkDataSource.searchUser(userName = "dinkar1708", page = 1, pageSize = 10) } throws Exception("Network Error")
+            // When
+            val resultFlow: Flow<SearchUser> = repository.searchUsers(userName = "dinkar1708", page = 1, pageSize = 10 )
+            resultFlow.catch { e ->
+                // Then
+                assertTrue(e is Exception)
+                assertTrue(e.message == "Network Error")
+            }.collect { _ ->
+                // do nothing testing error case
+            }
         }
     }
 }

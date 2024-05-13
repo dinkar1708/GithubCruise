@@ -49,10 +49,18 @@ fun UsersListScreen(
     UsersListScreenContent(
         isLoading = viewState.isLoading,
         userList = viewState.userList,
+        lastVisibleItemIndex = viewState.lastVisibleItemIndex,
         errorMessage = viewState.errorMessage,
         onItemClick = onClick,
-        onSearchSubmitted = { },
-        onClearInput = {}
+        onSearchSubmitted = { viewModel.updateInputString(it) },
+        onClearInput = {
+            // clear text
+            viewModel.updateInputString("")
+        },
+        onListScrolledToEnd = { i ->
+            viewModel.updateLastVisibleIndex(i)
+            viewModel.loadNextPage()
+        }
     )
 }
 
@@ -60,10 +68,12 @@ fun UsersListScreen(
 fun UsersListScreenContent(
     isLoading: Boolean,
     userList: List<User>,
+    lastVisibleItemIndex: Int,
     errorMessage: String,
     onItemClick: (User) -> Unit,
     onSearchSubmitted: (String) -> Unit,
-    onClearInput: () -> Unit
+    onClearInput: () -> Unit,
+    onListScrolledToEnd: (Int) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -89,7 +99,12 @@ fun UsersListScreenContent(
                     .padding(horizontal = 16.dp)
                     .fillMaxWidth(),
                 userList = userList,
-                onItemClick = onItemClick
+                lastVisibleItemIndex = lastVisibleItemIndex,
+                onItemClick = onItemClick,
+                onListScrolledToEnd = {
+                    // last item is visible
+                    onListScrolledToEnd(it)
+                }
             )
         }
     }
@@ -156,9 +171,11 @@ fun UserListScreenContentPreview() {
         UsersListScreenContent(
             isLoading = false,
             userList = emptyList(),
+            lastVisibleItemIndex = 0,
             errorMessage = "Error",
             onItemClick = { }, onSearchSubmitted = {},
-            onClearInput = {}
+            onClearInput = {},
+            onListScrolledToEnd = {},
         )
     }
 }
