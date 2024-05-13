@@ -10,5 +10,8 @@ import retrofit2.http.Query
 interface APIInterface {
     // search apis
     @GET("/search/users")
-    suspend fun getSearchUsers(@Query("q") userName: String): SearchUser
+    suspend fun getSearchUsers(
+        @Query("q") userName: String, @Query("page") page: Int,
+        @Query("per_page") pageSize: Int,
+    ): SearchUser
 }
