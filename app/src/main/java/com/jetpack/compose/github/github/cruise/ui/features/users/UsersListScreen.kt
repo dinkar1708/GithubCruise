@@ -52,7 +52,10 @@ fun UsersListScreen(
         errorMessage = viewState.errorMessage,
         onItemClick = onClick,
         onSearchSubmitted = { viewModel.updateInputString(it) },
-        onClearInput = {}
+        onClearInput = {
+            // clear text
+            viewModel.updateInputString("")
+        }
     )
 }
 
