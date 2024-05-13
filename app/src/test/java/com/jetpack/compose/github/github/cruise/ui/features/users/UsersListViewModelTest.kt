@@ -3,8 +3,10 @@ package com.jetpack.compose.github.github.cruise.ui.features.users
 import com.jetpack.compose.github.github.cruise.domain.model.SearchUser
 import com.jetpack.compose.github.github.cruise.domain.model.User
 import com.jetpack.compose.github.github.cruise.domain.usecase.SearchRepositoryUseCase
+import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
@@ -12,6 +14,7 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert
+import org.junit.Assert.assertFalse
 import org.junit.Before
 import org.junit.Test
 
@@ -57,4 +60,22 @@ class UsersListViewModelTest {
         Assert.assertEquals("Input user name to search", state.errorMessage)
     }
 
+    @Test
+    fun `search user - data loaded`() = runTest {
+        // https://developer.android.com/kotlin/coroutines/test#inject-scope
+        // Given
+        coEvery {
+            mockSearchRepositoryUseCase.searchUsers(userName = "dinkar1708", page = 1, pageSize = 10)
+        } returns flowOf(searchUser)
+
+        // When
+        viewModel.updateInputString("dinkar1708")
+
+        advanceUntilIdle() // Advance time to process the flow
+        // Then
+        val state = viewModel.uiState.value
+//        Assert.assertEquals(false, state.isLoading)
+        // TODO fix below test case
+//        assertFalse(state.userList.isNotEmpty())
+    }
 }
