@@ -8,6 +8,8 @@ import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -59,6 +61,23 @@ class SearchRepositoryImplTest {
             assertEquals(searchUser, result)
             // incomplete result
             assertTrue(searchUser.incompleteResults)
+        }
+    }
+
+    @Test
+    fun `test search Users API call fails`() {
+        runTest {
+            // Given
+            coEvery { mockNetworkDataSource.searchUser("dinkar1708") } throws Exception("Network Error")
+            // When
+            val resultFlow: Flow<SearchUser> = repository.searchUsers("dinkar1708")
+            resultFlow.catch { e ->
+                // Then
+                assertTrue(e is Exception)
+                assertTrue(e.message == "Network Error")
+            }.collect { _ ->
+                // do nothing testing error case
+            }
         }
     }
 }
