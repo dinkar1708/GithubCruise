@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -11,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,28 +41,32 @@ fun UsersListView(
 fun UserListItem(user: User, onItemClick: (User) -> Unit) {
     Box(
         modifier = Modifier
-            .padding(1.dp)
+            .padding(vertical = 16.dp)
             .clickable { onItemClick(user) }
     ) {
-        NetworkImageView(
-            modifier = Modifier.size(size = 60.dp),
-            imageUrl = user.avatarUrl,
-            contentDescription = "Profile picture of ${user.login}"
-        )
-        Column {
-            Text(
-                text = user.login,
-                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
-                color = MaterialTheme.colorScheme.onBackground,
-            )
-            Text(
-                text = "Score ${user.score}",
-                style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.onSurface)
-            )
-        }
+                Row{
+
+                    NetworkImageView(
+                        modifier = Modifier.size(size = 60.dp),
+                        imageUrl = user.avatarUrl,
+                        contentDescription = "Profile picture of ${user.login}"
+                    )
+                    Column(
+                        modifier = Modifier.align(Alignment.CenterVertically).padding(start = 8.dp)
+                    ) {
+                        Text(
+                            text = user.login,
+                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
+                            color = MaterialTheme.colorScheme.onBackground,
+                        )
+                        Text(
+                            text = "Score ${user.score}",
+                            style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.onSurface)
+                        )
+                    }
+                }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable
