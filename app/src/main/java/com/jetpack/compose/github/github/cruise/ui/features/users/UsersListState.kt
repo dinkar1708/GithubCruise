@@ -1,0 +1,12 @@
+package com.jetpack.compose.github.github.cruise.ui.features.users
+
+import com.jetpack.compose.github.github.cruise.domain.model.User
+
+/**
+ * Created by Dinakar Maurya on 2024/05/13.
+ */
+data class UsersListState(
+    val userList: List<User> = emptyList(),
+    val isLoading: Boolean = false,
+    val errorMessage: String = ""
+)
