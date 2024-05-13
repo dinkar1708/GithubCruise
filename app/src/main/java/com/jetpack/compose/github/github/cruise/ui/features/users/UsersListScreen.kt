@@ -51,7 +51,7 @@ fun UsersListScreen(
         userList = viewState.userList,
         errorMessage = viewState.errorMessage,
         onItemClick = onClick,
-        onSearchSubmitted = { },
+        onSearchSubmitted = { viewModel.updateInputString(it) },
         onClearInput = {}
     )
 }

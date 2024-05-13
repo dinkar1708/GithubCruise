@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,22 +24,60 @@ class UsersListViewModel @Inject constructor(
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(UsersListState())
     val uiState: StateFlow<UsersListState> = _uiState.asStateFlow()
+    // private var userName: String? = null
+    // TODO remove default value
+    private var userName: String? = "dinkar1708"
 
     init {
         loadUsers()
     }
 
+    fun updateInputString(inputString: String) {
+        userName = inputString
+        loadUsers()
+    }
+
     private fun loadUsers() = viewModelScope.launch(dispatcher) {
+        _uiState.update { UsersListState(isLoading = true) }
+
         try {
-            searchRepositoryUseCase.searchUsers("dinkar1708") // TODO remove check with hard coded
+            if (userName == null || userName!!.isEmpty()) {
+                _uiState.update {
+                    UsersListState(
+                        errorMessage = "Input user name to search",
+                        isLoading = false
+                    )
+                }
+                return@launch
+            }
+
+            searchRepositoryUseCase.searchUsers(userName!!)
                 .catch { exception ->
-                    // TODO show error on UI
+                    _uiState.update {
+                        UsersListState(
+                            errorMessage = exception.localizedMessage
+                                ?: "Error searching user list",
+                            isLoading = false
+                        )
+                    }
                 }
                 .collect { userList ->
-                    // TODO send data on UI
+                    _uiState.update {
+                        UsersListState(
+                            userList = userList.users,
+                            isLoading = false
+                        )
+                    }
                 }
         } catch (e: Exception) {
-            // handle error and send on UI
+            // Handle network-related exceptions here
+            _uiState.update {
+                UsersListState(
+                    errorMessage = "Network error: ${e.localizedMessage}",
+                    isLoading = false
+                )
+            }
         }
     }
+
 }
