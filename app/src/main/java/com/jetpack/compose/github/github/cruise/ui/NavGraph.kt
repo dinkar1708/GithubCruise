@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.jetpack.compose.github.github.cruise.ui.features.users.UsersListScreen
 import com.jetpack.compose.github.github.cruise.ui.features.users.UsersListViewModel
+import timber.log.Timber
 
 /**
  * Created by Dinakar Maurya on 2024/05/12.
@@ -24,7 +25,9 @@ fun NavGraph(
     NavHost(navController = navController, startDestination = startDestination) {
         composable(MainDestinations.USERS_LIST_SCREEN_ROUTE) {
             val viewModel: UsersListViewModel = hiltViewModel()
-            UsersListScreen(viewModel = viewModel)
+            UsersListScreen(viewModel = viewModel) {
+                Timber.d("TODO do it later")
+            }
         }
     }
 }

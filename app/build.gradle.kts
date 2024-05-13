@@ -78,6 +78,7 @@ dependencies {
     implementation(libs.moshi)
     implementation(libs.moshi.kotlin)
     implementation(libs.mockk)
+    implementation(libs.coil.compose)
     testImplementation(libs.junit.jupiter)
     ksp(libs.room.compiler)
     implementation(libs.androidx.lifecycle.runtimeCompose)

@@ -6,6 +6,9 @@ import com.jetpack.compose.github.github.cruise.di.DefaultDispatcher
 import com.jetpack.compose.github.github.cruise.domain.usecase.SearchRepositoryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,6 +21,8 @@ class UsersListViewModel @Inject constructor(
     private val searchRepositoryUseCase: SearchRepositoryUseCase,
     @DefaultDispatcher private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
+    private val _uiState = MutableStateFlow(UsersListState())
+    val uiState: StateFlow<UsersListState> = _uiState.asStateFlow()
 
     init {
         loadUsers()
