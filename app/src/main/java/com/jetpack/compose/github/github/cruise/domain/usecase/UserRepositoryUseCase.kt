@@ -18,7 +18,7 @@ class UserRepositoryUseCase @Inject constructor(private val userRepository: User
     ): Flow<List<UserRepo>> {
         return userRepository.getUserRepositories(login, page, pageSize)
             .map { repos ->
-                // filter fork repositories
+                // don`t need fork repositories
                 repos.filter { !it.fork }
             }
     }
