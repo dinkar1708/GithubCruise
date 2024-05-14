@@ -16,11 +16,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.jetpack.compose.github.github.cruise.domain.model.UserRepo
+import com.jetpack.compose.github.github.cruise.ui.shared.extension.openUrlInBrowser
 import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
 
 /**
@@ -41,12 +43,14 @@ fun UserRepoListView(modifier: Modifier, userRepoList: List<UserRepo>) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RepositoryListItem(userRepo: UserRepo) {
+    val context = LocalContext.current
 //    val clicked = remember { mutableStateOf(false) }
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .background(color = MaterialTheme.colorScheme.background)
             .clickable {
+                context.openUrlInBrowser(userRepo.htmlUrl)
 //                clicked.value = !clicked.value
             }
             .padding(vertical = 8.dp),
