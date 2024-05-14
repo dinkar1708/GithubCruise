@@ -14,6 +14,7 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert
+import org.junit.Assert.assertFalse
 import org.junit.Before
 import org.junit.Test
 
@@ -52,6 +53,8 @@ class UsersListViewModelTest {
         // When
         // empty text
         viewModel.updateInputString("")
+        // Given
+        // Given default data in view model
         advanceUntilIdle() // Advance time to process the flow
         // Then
         val state = viewModel.uiState.value
@@ -60,7 +63,7 @@ class UsersListViewModelTest {
     }
 
     @Test
-    fun `search user - data loaded`() = runTest {
+    fun `loadUsers user - data loaded`() = runTest {
         // https://developer.android.com/kotlin/coroutines/test#inject-scope
         // Given
         coEvery {
@@ -73,8 +76,8 @@ class UsersListViewModelTest {
         advanceUntilIdle() // Advance time to process the flow
         // Then
         val state = viewModel.uiState.value
-//        Assert.assertEquals(false, state.isLoading)
+        Assert.assertEquals(false, state.isLoading)
         // TODO fix below test case
-//        assertFalse(state.userList.isNotEmpty())
+        assertFalse(state.userList.isNotEmpty())
     }
 }

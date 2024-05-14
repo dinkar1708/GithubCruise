@@ -61,6 +61,7 @@
 <hr>
 
 **User profile**
+- **Doc:** https://docs.github.com/en/rest/users/users?apiVersion=2022-11-28#get-a-user
 - **URL:** `https://api.github.com/users/dinkar1708`
 - **Header:**
     - `"X-GitHub-Api-Version": "2022-11-28"`
@@ -103,7 +104,8 @@
 <hr>
 
 **User repositories**
-- **URL:** `https://api.github.com/users/dinkar1708/reposq=page=1&per_page=2`
+- **Doc:** - ??
+- **URL:** `https://api.github.com/users/dinkar1708/repos?q=page=1&per_page=2`
 - **Header:**
     - `"X-GitHub-Api-Version": "2022-11-28"`
 - **Type:** GET
