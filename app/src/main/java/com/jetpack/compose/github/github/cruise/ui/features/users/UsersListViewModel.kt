@@ -31,14 +31,14 @@ class UsersListViewModel @Inject constructor(
 
     // pagination variables
     private var page = 1
-    private val pageSize = 10
+    private val pageSize = 20
     private var currentInputSearchTotalResultSize = 0
     private var isLoadingApiData = false
     // pagination variables end
 
     init {
         Timber.d("$TAG Initial load users.....")
-        loadUsers()
+        loadUsers() // TODO remove at the end
     }
 
     fun updateLastVisibleIndex(index: Int) {
