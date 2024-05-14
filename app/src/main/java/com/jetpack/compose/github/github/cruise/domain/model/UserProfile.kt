@@ -12,7 +12,7 @@ data class UserProfile(
     @Json(name = "avatar_url")
     val avatarUrl: String = "",
     val login: String,
-    val name: String,
+    val name: String? = "",
     val followers: Int = 0,
     val following: Int = 0,
 )
