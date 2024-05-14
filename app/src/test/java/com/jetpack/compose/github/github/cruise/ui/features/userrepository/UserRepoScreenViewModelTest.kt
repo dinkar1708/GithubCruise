@@ -2,7 +2,6 @@ package com.jetpack.compose.github.github.cruise.ui.features.userrepository
 
 import com.jetpack.compose.github.github.cruise.domain.model.User
 import com.jetpack.compose.github.github.cruise.domain.model.UserProfile
-import com.jetpack.compose.github.github.cruise.domain.model.UserRepo
 import com.jetpack.compose.github.github.cruise.domain.usecase.UserRepositoryUseCase
 import com.jetpack.compose.github.github.cruise.network.model.ApiError
 import com.jetpack.compose.github.github.cruise.network.model.ApiErrorResponse
@@ -16,7 +15,6 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
@@ -42,7 +40,7 @@ class UserRepoScreenViewModelTest {
     @Test
     fun `test loadApiData uiStateProfile - loading cancelled after api call failed`() = runTest {
         // mock data
-         val user = User(
+        val user = User(
             id = 1,
             login = "dinkar1708",
             type = "User",
@@ -66,8 +64,10 @@ class UserRepoScreenViewModelTest {
         // checking loading without mock data
         Assert.assertEquals(false, state.isLoading)
         // Network error is added from view model so lets test it.
-        Assert.assertEquals("Network error: API rate limit exceeded for 134.180.235.148. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.",
-            state.errorMessage)
+        Assert.assertEquals(
+            "Network error: API rate limit exceeded for 134.180.235.148. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.",
+            state.errorMessage
+        )
     }
 
     @Test
@@ -88,7 +88,7 @@ class UserRepoScreenViewModelTest {
             login = "dinkar1708"
         )
         // Given
-        coEvery { mockUserRepositoryUseCase.getUserProfile(user.login) } returns flowOf( userProfile)
+        coEvery { mockUserRepositoryUseCase.getUserProfile(user.login) } returns flowOf(userProfile)
         // When
         // empty text
         viewModel.loadApiData(user)

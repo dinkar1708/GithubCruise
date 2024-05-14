@@ -6,6 +6,6 @@ package com.jetpack.compose.github.github.cruise.network.api
 class ApiConstants {
     companion object {
         const val GITHUB_API_DEBUG_BASE_URL = "https://api.github.com"
-        const val GITHUB_API_VERSION_V3 =  "2022-11-28"
+        const val GITHUB_API_VERSION_V3 = "2022-11-28"
     }
 }
