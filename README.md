@@ -7,7 +7,10 @@
 - General guide
   - https://developer.android.com/training/testing/local-tests
   - https://developer.android.com/kotlin/flow/test
-
+# Coding
+- Use view model at screen leve - https://youtu.be/pCX9wvu-Bq0?t=470
+- UI state - https://developer.android.com/topic/architecture/ui-layer/stateholders#ui-state
+- UI state - https://developer.android.com/topic/architecture/ui-layer/state-production#stateflow_3
 # TODO
 - UsersListView // TODO Handle restoring the scroll position of the list after the next page data is loaded.
 - Check all apis required fields from doc
