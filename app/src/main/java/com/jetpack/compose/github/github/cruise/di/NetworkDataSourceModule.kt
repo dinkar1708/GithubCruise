@@ -3,6 +3,7 @@ package com.jetpack.compose.github.github.cruise.di
 import com.jetpack.compose.github.github.cruise.network.NetworkDataSource
 import com.jetpack.compose.github.github.cruise.network.NetworkDataSourceImpl
 import com.jetpack.compose.github.github.cruise.network.api.APIInterface
+import com.jetpack.compose.github.github.cruise.network.api.ApiConstants
 import com.jetpack.compose.github.github.cruise.network.api.ApiInterceptor
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -40,7 +41,8 @@ object NetworkDataSourceModule {
 
         val retrofitBuilder: Retrofit.Builder =
             Retrofit.Builder()
-                .baseUrl("https://api.github.com")
+                // TODO handle release testing URL
+                .baseUrl(ApiConstants.GITHUB_API_DEBUG_BASE_URL)
                 .addConverterFactory(MoshiConverterFactory.create(moshi))
                 .client(okHttpClient)
 

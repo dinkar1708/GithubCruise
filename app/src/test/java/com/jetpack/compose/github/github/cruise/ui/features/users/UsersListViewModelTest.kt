@@ -67,7 +67,11 @@ class UsersListViewModelTest {
         // https://developer.android.com/kotlin/coroutines/test#inject-scope
         // Given
         coEvery {
-            mockSearchRepositoryUseCase.searchUsers(userName = "dinkar1708", page = 1, pageSize = 10)
+            mockSearchRepositoryUseCase.searchUsers(
+                userName = "dinkar1708",
+                page = 1,
+                pageSize = 10
+            )
         } returns flowOf(searchUser)
 
         // When
