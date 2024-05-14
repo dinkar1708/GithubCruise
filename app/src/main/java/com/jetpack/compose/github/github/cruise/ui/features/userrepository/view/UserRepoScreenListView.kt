@@ -16,11 +16,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.jetpack.compose.github.github.cruise.domain.model.UserRepo
 import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
 
@@ -68,36 +67,30 @@ fun RepositoryListItem(userRepo: UserRepo) {
             ) {
                 Text(
                     text = userRepo.name,
-                    style = TextStyle(
-                        color = MaterialTheme.colorScheme.onBackground,
-                        fontSize = 18.sp,
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onBackground
                     ),
-                )
+
+                    )
 
 
                 Text(
                     text = "Language ${userRepo.language}",
-                    style = TextStyle(
-                        color = MaterialTheme.colorScheme.surfaceTint,
-                        fontSize = 14.sp,
-                    ),
-                )
+                    style = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.colorScheme.surfaceTint),
+
+                    )
                 Text(
                     text = "* ${userRepo.stargazersCount}",
-                    style = TextStyle(
-                        color = MaterialTheme.colorScheme.surfaceTint,
-                        fontSize = 14.sp,
-                    ),
+                    style = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.colorScheme.surfaceTint),
+
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
                     text = userRepo.description ?: "",
-                    color = MaterialTheme.colorScheme.surfaceTint,
-                    style = TextStyle(
-                        color = MaterialTheme.colorScheme.onBackground,
-                        fontSize = 14.sp,
-                    ),
-                )
+                    style = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.colorScheme.surfaceTint),
+
+                    )
             }
         }
     }

@@ -9,11 +9,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.jetpack.compose.github.github.cruise.domain.model.UserProfile
 import com.jetpack.compose.github.github.cruise.ui.shared.NetworkImageView
 import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
@@ -34,48 +33,47 @@ fun UserProfileView(userProfile: UserProfile) {
         Column(Modifier.padding(start = 16.dp, top = 16.dp)) {
             Text(
                 text = userProfile.name ?: "",
-                style = TextStyle(
-                    color = MaterialTheme.colorScheme.onBackground,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onBackground
                 ),
             )
             Row(Modifier.padding(top = 16.dp)) {
-                Column(Modifier.padding(end = 8.dp)) {
+                Column(
+                    Modifier
+                        .padding(end = 8.dp)
+                        .weight(1f)
+                ) {
                     Text(
                         text = "${userProfile.followers}",
-                        style = TextStyle(
-                            color = MaterialTheme.colorScheme.onBackground,
-                            fontSize = 18.sp,
-                        ),
+                        style = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.onBackground),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                     Text(
                         text = "Followers",
-                        style = TextStyle(
-                            color = MaterialTheme.colorScheme.surfaceTint,
-                            fontSize = 11.sp,
-                        ),
+                        style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.surfaceTint),
                     )
                 }
 
-                Column() {
+                Column(
+                    Modifier
+                        .weight(1f)
+                ) {
                     Text(
                         text = "${userProfile.following}",
-                        style = TextStyle(
-                            color = MaterialTheme.colorScheme.onBackground,
-                            fontSize = 18.sp,
-                        ),
+                        style = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.onBackground),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                     Text(
                         text = "Following",
-                        style = TextStyle(
-                            color = MaterialTheme.colorScheme.surfaceTint,
-                            fontSize = 11.sp,
-                        ),
-                    )
-                }
+                        style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.surfaceTint),
 
+                        )
+                }
             }
+
         }
     }
 }
