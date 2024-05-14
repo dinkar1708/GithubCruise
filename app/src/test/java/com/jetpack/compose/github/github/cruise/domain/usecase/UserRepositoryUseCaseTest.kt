@@ -11,9 +11,9 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import org.junit.Assert.*
-
 import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Before
 import org.junit.Test
 
@@ -57,7 +57,9 @@ class UserRepositoryUseCaseTest {
             )
         )
         // Given
-        coEvery { mockRepository.getUserRepositories("dinkar1708", 1, 20) } returns flowOf(userRepoList)
+        coEvery { mockRepository.getUserRepositories("dinkar1708", 1, 20) } returns flowOf(
+            userRepoList
+        )
         // When
         val result = userRepositoryUseCase.filterNotForkedUserRepositories(
             "dinkar1708", 1, 20,

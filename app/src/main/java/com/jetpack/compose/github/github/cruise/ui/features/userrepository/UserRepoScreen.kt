@@ -33,8 +33,7 @@ fun UserRepoScreen(
     val viewState by viewModel.uiStateRepository.collectAsStateWithLifecycle()
     val viewStateProfile by viewModel.uiStateProfile.collectAsStateWithLifecycle()
 
-    Column(
-    ) {
+    Column {
         AppActionBarView(
             modifier = Modifier
                 .fillMaxWidth(),

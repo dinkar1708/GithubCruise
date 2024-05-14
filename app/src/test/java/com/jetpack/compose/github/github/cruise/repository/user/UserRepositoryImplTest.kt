@@ -1,12 +1,10 @@
 package com.jetpack.compose.github.github.cruise.repository.user
 
-import com.jetpack.compose.github.github.cruise.domain.model.SearchUser
 import com.jetpack.compose.github.github.cruise.domain.model.UserProfile
 import com.jetpack.compose.github.github.cruise.domain.model.UserRepo
 import com.jetpack.compose.github.github.cruise.network.NetworkDataSource
 import com.jetpack.compose.github.github.cruise.network.model.ApiError
 import com.jetpack.compose.github.github.cruise.network.model.ApiErrorResponse
-import com.jetpack.compose.github.github.cruise.repository.search.SearchRepositoryImpl
 import io.mockk.coEvery
 import io.mockk.mockk
 import junit.framework.TestCase
@@ -18,8 +16,6 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import org.junit.Assert.*
-
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -71,7 +67,7 @@ class UserRepositoryImplTest {
             val userName = "dinkar1708"
             // Given
             // set mock data for user name
-            coEvery { mockNetworkDataSource.getUserProfile(userName = userName)} returns userProfile
+            coEvery { mockNetworkDataSource.getUserProfile(userName = userName) } returns userProfile
             // When
             // now call mock api
             val resultFlow = repository.getUserProfile(userName = userName)
@@ -94,7 +90,7 @@ class UserRepositoryImplTest {
                 )
             )
             // When
-            val resultFlow: Flow<UserProfile> = repository.getUserProfile(userName = "dinkar1708" )
+            val resultFlow: Flow<UserProfile> = repository.getUserProfile(userName = "dinkar1708")
             resultFlow.catch { e ->
                 // Then
                 TestCase.assertTrue(e is ApiError.ApiException)
@@ -106,15 +102,21 @@ class UserRepositoryImplTest {
     }
 
 
-
     @Test
     fun `test getUserRepositories user repository list API call success`() {
         runTest {
             val userName = "dinkar1708"
             // set mock data for user name
-            coEvery { mockNetworkDataSource.getUserRepositories(userName = userName, page = 1, pageSize = 10) } returns userRepoList
+            coEvery {
+                mockNetworkDataSource.getUserRepositories(
+                    userName = userName,
+                    page = 1,
+                    pageSize = 10
+                )
+            } returns userRepoList
             // now call mock api
-            val resultFlow = repository.getUserRepositories(userName = userName, page = 1, pageSize = 10)
+            val resultFlow =
+                repository.getUserRepositories(userName = userName, page = 1, pageSize = 10)
             val result = resultFlow.single()
             // for same user mock response and api response must be same
             TestCase.assertEquals(userRepoList, result)

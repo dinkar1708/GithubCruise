@@ -9,8 +9,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,7 +35,7 @@ fun UserRepoListView(modifier: Modifier, userRepoList: List<UserRepo>) {
             RepositoryListItem(
                 userRepo = userRepoList[index]
             )
-            Divider(color = MaterialTheme.colorScheme.onBackground)
+            HorizontalDivider(color = MaterialTheme.colorScheme.onBackground)
         }
     }
 }
