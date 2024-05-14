@@ -135,7 +135,8 @@ fun UserListPreview() {
     )
 
     GithubCruiseTheme {
-        UsersListView(modifier = Modifier.fillMaxWidth(), userList = users, onItemClick = {},
+        UsersListView(
+            modifier = Modifier.fillMaxWidth(), userList = users, onItemClick = {},
             onListScrolledToEnd = {}, lastVisibleItemIndex = 2
         )
     }
