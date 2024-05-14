@@ -21,7 +21,7 @@ interface APIInterface {
     @GET("/users/{userName}")
     suspend fun getUserProfile(@Path("userName") userName: String): UserProfile
 
-    @GET("/users/{userName}/repos?q=page=1&per_page=2")
+    @GET("/users/{userName}/repos")
     suspend fun getUserRepositories(
         @Path("userName") userName: String, @Query("page") page: Int,
         @Query("per_page") pageSize: Int,
