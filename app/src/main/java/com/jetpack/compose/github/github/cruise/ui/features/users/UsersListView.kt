@@ -77,7 +77,7 @@ fun UsersListView(
         Timber.d("$TAG listen lastVisibleItemIndex ...lastVisibleItemIndex $lastVisibleItemIndex user size ${userList.size} ")
         if (lastVisibleItemIndex > 0) {
             // This can scroll, but it is not accurate.
-            scrollState.scrollToItem(lastVisibleItemIndex - 8)
+            scrollState.scrollToItem(lastVisibleItemIndex)
             Timber.d("$TAG scrolled.......... ")
         }
     }
