@@ -31,7 +31,7 @@ object NetworkDataSourceModule {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
 
-        val apiInterceptor = ApiInterceptor()
+        val apiInterceptor = ApiInterceptor(moshi)
 
         val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(interceptor)
