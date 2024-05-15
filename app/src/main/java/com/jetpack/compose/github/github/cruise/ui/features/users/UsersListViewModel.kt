@@ -31,7 +31,7 @@ class UsersListViewModel @Inject constructor(
 
     // pagination variables
     private var page = 1
-    private val pageSize = 20
+    private val pageSize = 10
     private var currentInputSearchTotalResultSize = 0
     private var isLoadingApiData = false
     // pagination variables end
