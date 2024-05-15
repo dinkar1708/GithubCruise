@@ -1,15 +1,22 @@
 package com.jetpack.compose.github.github.cruise.ui.features.userrepository
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,12 +35,14 @@ import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
  */
 @Composable
 fun UserRepoScreen(
-    viewModel: UserRepoScreenViewModel, onBackClick: () -> Unit
+    viewModel: UserRepoScreenViewModel,  onBackClick: () -> Unit
 ) {
     val viewState by viewModel.uiStateRepository.collectAsStateWithLifecycle()
     val viewStateProfile by viewModel.uiStateProfile.collectAsStateWithLifecycle()
 
-    Column {
+    Column (modifier =
+    Modifier
+        .background(MaterialTheme.colorScheme.background)){
         AppActionBarView(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -41,23 +50,24 @@ fun UserRepoScreen(
             showBackButton = true,
             onBackClick = onBackClick
         )
-        Column(
-            modifier = Modifier
-                .padding(start = 16.dp, end = 16.dp, top = 16.dp)
-                .background(MaterialTheme.colorScheme.background),
-        ) {
-            UserRepoListScreenContentsProfile(
-                isLoading = viewStateProfile.isLoading,
-                userProfile = viewStateProfile.userProfile,
-                errorMessage = viewState.errorMessage
-            )
 
-            UserRepoListScreenContents(
-                isLoading = viewState.isLoading,
-                userRepoList = viewState.userRepoList,
-                errorMessage = viewState.errorMessage
-            )
-        }
+        UserRepoListScreenContentsProfile(
+            isLoading = viewStateProfile.isLoading,
+            userProfile = viewStateProfile.userProfile,
+            errorMessage = viewStateProfile.errorMessage
+        )
+
+        HorizontalDivider(modifier = Modifier.padding(top = 16.dp))
+
+        UserRepoListScreenContents(
+            isLoading = viewState.isLoading,
+            userRepoList = viewState.userRepoList,
+            errorMessage = viewState.errorMessage,
+            isShowForkRepo =
+            {
+                viewModel.filterRepositories(it)
+            }
+        )
     }
 }
 
@@ -67,18 +77,37 @@ fun UserRepoListScreenContents(
     isLoading: Boolean,
     userRepoList: List<UserRepo>,
     errorMessage: String,
+    isShowForkRepo: (Boolean) -> Unit,
 ) {
-    Box(
-        modifier = Modifier.padding(top = 16.dp),
-    ) {
-        Text(
-            text = "Repositories",
-            style = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onBackground),
-        )
+    var isShowingFork by remember { mutableStateOf(false) }
+
+    Column(
+        modifier = Modifier
+            .padding(top = 16.dp, start = 16.dp, end = 16.dp)
+            .background(MaterialTheme.colorScheme.background)
+        ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                text = "${userRepoList.size} Repositories",
+                style = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onBackground),
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Switch(
+                checked = isShowingFork,
+                onCheckedChange = {
+                    isShowingFork = it
+                    isShowForkRepo(isShowingFork)
+                }
+            )
+            Text(
+                text = "${if (isShowingFork) "On" else "Off"} Fork",
+                style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.onBackground),
+            )
+        }
+
     }
 
     StateContentBox(
-        Modifier.padding(top = 8.dp),
         isLoading = isLoading,
         errorMessage = errorMessage
     ) {
@@ -95,17 +124,19 @@ fun UserRepoListScreenContents(
 @Composable
 fun UserRepoListScreenContentsProfile(
     isLoading: Boolean,
-    userProfile: UserProfile,
+    userProfile: UserProfile?,
     errorMessage: String,
 ) {
     StateContentBox(
-        Modifier.padding(top = 8.dp),
         isLoading = isLoading,
         errorMessage = errorMessage
     ) {
-        UserProfileView(
-            userProfile
-        )
+        // assume user profile is not null at this point
+        if (userProfile != null) {
+            UserProfileView(
+                userProfile
+            )
+        }
     }
 }
 
@@ -151,7 +182,8 @@ fun UserRepoListHeaderPreview() {
                 UserRepoListScreenContents(
                     isLoading = false,
                     userRepoList = userRepoList,
-                    errorMessage = ""
+                    errorMessage = "",
+                    isShowForkRepo = {}
                 )
             }
         }

@@ -61,7 +61,8 @@ class UserRepositoryUseCaseTest {
             userRepoList
         )
         // When
-        val result = userRepositoryUseCase.filterNotForkedUserRepositories(
+        val result = userRepositoryUseCase.filterUserRepositories(
+            false,
             "dinkar1708", 1, 20,
         )
             .single()
