@@ -13,7 +13,7 @@ import javax.inject.Inject
 class UserRepositoryUseCase @Inject constructor(private val userRepository: UserRepository) {
 
     suspend fun filterUserRepositories(
-        isShowingForkRepo : Boolean,
+        isShowingForkRepo: Boolean,
         login: String, page: Int,
         pageSize: Int,
     ): Flow<List<UserRepo>> {

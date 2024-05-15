@@ -41,7 +41,7 @@ fun RepoDetailsScreen(
 @Preview(showBackground = true)
 @Composable
 fun ScreenCommonHeaderPreview() {
-GithubCruiseTheme {
+    GithubCruiseTheme {
         Surface {
             SharedWebView("")
         }

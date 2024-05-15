@@ -81,7 +81,12 @@ class UserRepoScreenViewModel @Inject constructor(
 
         try {
             val repositories =
-                userRepositoryUseCase.filterUserRepositories(_uiStateRepository.value.isShowingForkRepo ,login = _uiStateRepository.value.selectedUser.login, 1, 40)
+                userRepositoryUseCase.filterUserRepositories(
+                    _uiStateRepository.value.isShowingForkRepo,
+                    login = _uiStateRepository.value.selectedUser.login,
+                    1,
+                    40
+                )
                     .catch { exception ->
                         Timber.e("viewmodel loadUserRepositories $exception")
                         _uiStateRepository.update {
@@ -120,9 +125,9 @@ class UserRepoScreenViewModel @Inject constructor(
         }
     }
 
-    fun filterRepositories(isShowingForkRepo : Boolean) = viewModelScope.launch(dispatcher) {
+    fun filterRepositories(isShowingForkRepo: Boolean) = viewModelScope.launch(dispatcher) {
         _uiStateRepository.update {
-            it.copy( isShowingForkRepo = isShowingForkRepo)
+            it.copy(isShowingForkRepo = isShowingForkRepo)
         }
         loadUserRepositories()
     }

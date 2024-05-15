@@ -35,15 +35,17 @@ import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
  */
 @Composable
 fun UserRepoScreen(
-    viewModel: UserRepoScreenViewModel,  onBackClick: () -> Unit,
+    viewModel: UserRepoScreenViewModel, onBackClick: () -> Unit,
     openRepoDetails: (String) -> Unit
 ) {
     val viewState by viewModel.uiStateRepository.collectAsStateWithLifecycle()
     val viewStateProfile by viewModel.uiStateProfile.collectAsStateWithLifecycle()
 
-    Column (modifier =
-    Modifier
-        .background(MaterialTheme.colorScheme.background)){
+    Column(
+        modifier =
+        Modifier
+            .background(MaterialTheme.colorScheme.background)
+    ) {
         AppActionBarView(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -88,7 +90,7 @@ fun UserRepoListScreenContents(
         modifier = Modifier
             .padding(top = 16.dp, start = 16.dp, end = 16.dp)
             .background(MaterialTheme.colorScheme.background)
-        ) {
+    ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
                 text = "${userRepoList.size} Repositories",
