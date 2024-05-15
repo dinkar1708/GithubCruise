@@ -22,7 +22,6 @@
 - **URL:** `https://api.github.com/users/dinkar1708/repos?q=page=1&per_page=2`
 ```
 
-- UsersListView // TODO Handle restoring the scroll position of the list after the next page data is loaded.
 - Check all apis required fields from doc
 - Verify code coverage - https://developer.android.com/codelabs/basic-android-kotlin-compose-test-viewmodel#4
 - Navigation

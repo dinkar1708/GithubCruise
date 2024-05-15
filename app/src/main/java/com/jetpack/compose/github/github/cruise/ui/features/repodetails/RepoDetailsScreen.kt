@@ -8,6 +8,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
 import com.jetpack.compose.github.github.cruise.ui.shared.AppActionBarView
 import com.jetpack.compose.github.github.cruise.ui.shared.SharedWebView
 import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
@@ -17,7 +18,8 @@ import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
  */
 @Composable
 fun RepoDetailsScreen(
-    htmlUrl: String, onBackClick: () -> Unit
+    navController: NavHostController,
+    htmlUrl: String
 ) {
     Column(
         modifier =
@@ -29,7 +31,9 @@ fun RepoDetailsScreen(
                 .fillMaxWidth(),
             headerText = "Repository Details",
             showBackButton = true,
-            onBackClick = onBackClick
+            onBackClick = {
+                navController.popBackStack()
+            }
         )
 
         SharedWebView(

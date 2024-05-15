@@ -1,14 +1,18 @@
 package com.jetpack.compose.github.github.cruise.ui.features.userrepository.view
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,9 +27,23 @@ import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
 
 @Composable
 fun UserProfileView(userProfile: UserProfile) {
-    Row {
+    Row(
+        Modifier
+            .shadow(10.dp, RoundedCornerShape(8.dp))
+            .background(
+                brush = Brush.linearGradient(
+                    colors = listOf(
+                        MaterialTheme.colorScheme.primaryContainer,
+                        MaterialTheme.colorScheme.onPrimaryContainer,
+                    )
+                ), shape = RoundedCornerShape(4.dp)
+            )
+            .padding(all = 16.dp)
+    ) {
         NetworkImageView(
-            modifier = Modifier.size(size = 100.dp),
+            modifier = Modifier
+                .size(size = 100.dp)
+                .padding(start = 0.dp),
             imageUrl = userProfile.avatarUrl,
             contentDescription = "Profile picture of ${userProfile.login}"
         )
@@ -35,7 +53,7 @@ fun UserProfileView(userProfile: UserProfile) {
                 text = userProfile.name ?: "",
                 style = MaterialTheme.typography.bodyLarge.copy(
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = MaterialTheme.colorScheme.background
                 ),
             )
             Row(Modifier.padding(top = 16.dp)) {
@@ -46,13 +64,13 @@ fun UserProfileView(userProfile: UserProfile) {
                 ) {
                     Text(
                         text = "${userProfile.followers}",
-                        style = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.onBackground),
+                        style = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.background),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
                     Text(
                         text = "Followers",
-                        style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.surfaceTint),
+                        style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.background),
                     )
                 }
 
@@ -62,13 +80,13 @@ fun UserProfileView(userProfile: UserProfile) {
                 ) {
                     Text(
                         text = "${userProfile.following}",
-                        style = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.onBackground),
+                        style = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.background),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
                     Text(
                         text = "Following",
-                        style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.surfaceTint),
+                        style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.background),
 
                         )
                 }

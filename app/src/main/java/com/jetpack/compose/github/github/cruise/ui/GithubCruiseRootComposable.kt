@@ -11,6 +11,6 @@ fun GithubCruiseRootComposable() {
     val navController = rememberNavController()
     NavGraph(
         navController = navController,
-        startDestination = MainDestinations.USERS_LIST_SCREEN_ROUTE
+        startDestination = MainDestinations.SPLASH_SCREEN_ROUTE
     )
 }

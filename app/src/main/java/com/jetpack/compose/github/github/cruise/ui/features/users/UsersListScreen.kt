@@ -12,7 +12,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -32,18 +31,21 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import com.jetpack.compose.github.github.cruise.domain.model.User
+import com.jetpack.compose.github.github.cruise.ui.MainDestinations.USER_REPO_SCREEN_ROUTE
 import com.jetpack.compose.github.github.cruise.ui.shared.AppActionBarView
 import com.jetpack.compose.github.github.cruise.ui.shared.StateContentBox
 import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
+
 
 /**
  * Created by Dinakar Maurya on 2024/05/12.
  */
 @Composable
 fun UsersListScreen(
-    viewModel: UsersListViewModel,
-    onClick: (User) -> Unit
+    navController: NavHostController,
+    viewModel: UsersListViewModel
 ) {
     val viewState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -52,7 +54,9 @@ fun UsersListScreen(
         userList = viewState.userList,
         lastVisibleItemIndex = viewState.lastVisibleItemIndex,
         errorMessage = viewState.errorMessage,
-        onItemClick = onClick,
+        onItemClick = {
+            navController.navigate("${USER_REPO_SCREEN_ROUTE}/${it.login}")
+        },
         onSearchSubmitted = { viewModel.updateInputString(it) },
         onClearInput = {
             // clear text
@@ -111,7 +115,6 @@ fun UsersListScreenContent(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchBar(
     onSearchSubmitted: (String) -> Unit,
@@ -137,9 +140,10 @@ fun SearchBar(
                     }
                 )
             },
-            // This material API is experimental and is likely to change or to be removed in the future.
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = Color.Transparent,
+            colors = TextFieldDefaults.colors(
+                focusedTextColor = MaterialTheme.colorScheme.onBackground,
+                unfocusedTextColor = MaterialTheme.colorScheme.surface,
+                // remove underline
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent
             ),
