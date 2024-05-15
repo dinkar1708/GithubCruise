@@ -29,11 +29,14 @@ import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
  * Created by Dinakar Maurya on 2024/05/14.
  */
 @Composable
-fun UserRepoListView(modifier: Modifier, userRepoList: List<UserRepo>) {
+fun UserRepoListView(modifier: Modifier, userRepoList: List<UserRepo>,
+                     openRepoDetails: (String) -> Unit
+) {
     LazyColumn(modifier = modifier) {
         items(userRepoList.size) { index ->
             RepositoryListItem(
-                userRepo = userRepoList[index]
+                userRepo = userRepoList[index],
+                openRepoDetails = openRepoDetails
             )
             HorizontalDivider(color = MaterialTheme.colorScheme.onBackground)
         }
@@ -42,15 +45,14 @@ fun UserRepoListView(modifier: Modifier, userRepoList: List<UserRepo>) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RepositoryListItem(userRepo: UserRepo) {
-    val context = LocalContext.current
+fun RepositoryListItem(userRepo: UserRepo, openRepoDetails: (String) -> Unit) {
 //    val clicked = remember { mutableStateOf(false) }
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .background(color = MaterialTheme.colorScheme.background)
             .clickable {
-                context.openUrlInBrowser(userRepo.htmlUrl)
+                openRepoDetails(userRepo.htmlUrl)
 //                clicked.value = !clicked.value
             }
             .padding(vertical = 8.dp),
@@ -122,6 +124,7 @@ fun UserRepositoryListPreview() {
                 .padding(horizontal = 16.dp)
                 .fillMaxWidth(),
             userRepoList = repoList,
+            openRepoDetails = {}
         )
     }
 }

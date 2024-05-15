@@ -35,7 +35,8 @@ import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
  */
 @Composable
 fun UserRepoScreen(
-    viewModel: UserRepoScreenViewModel,  onBackClick: () -> Unit
+    viewModel: UserRepoScreenViewModel,  onBackClick: () -> Unit,
+    openRepoDetails: (String) -> Unit
 ) {
     val viewState by viewModel.uiStateRepository.collectAsStateWithLifecycle()
     val viewStateProfile by viewModel.uiStateProfile.collectAsStateWithLifecycle()
@@ -66,7 +67,8 @@ fun UserRepoScreen(
             isShowForkRepo =
             {
                 viewModel.filterRepositories(it)
-            }
+            },
+            openRepoDetails = openRepoDetails
         )
     }
 }
@@ -78,6 +80,7 @@ fun UserRepoListScreenContents(
     userRepoList: List<UserRepo>,
     errorMessage: String,
     isShowForkRepo: (Boolean) -> Unit,
+    openRepoDetails: (String) -> Unit
 ) {
     var isShowingFork by remember { mutableStateOf(false) }
 
@@ -117,6 +120,7 @@ fun UserRepoListScreenContents(
                 .padding(horizontal = 16.dp)
                 .fillMaxWidth(),
             userRepoList = userRepoList,
+            openRepoDetails = openRepoDetails
         )
     }
 }
@@ -183,7 +187,8 @@ fun UserRepoListHeaderPreview() {
                     isLoading = false,
                     userRepoList = userRepoList,
                     errorMessage = "",
-                    isShowForkRepo = {}
+                    isShowForkRepo = {},
+                    openRepoDetails = {}
                 )
             }
         }
