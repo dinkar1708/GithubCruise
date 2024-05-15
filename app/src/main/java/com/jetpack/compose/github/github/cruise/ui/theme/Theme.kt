@@ -18,7 +18,9 @@ private val DarkColorScheme = darkColorScheme(
     // The color for primary containers, such as cards or panels.
     primaryContainer = Container,
     // small icons, clear button etc.
-    surfaceTint = SmallICons
+    surfaceTint = SmallICons,
+    // Error
+    error = Alert
 )
 
 
@@ -28,7 +30,8 @@ private val LightColorScheme = lightColorScheme(
     onSurface = TextLight,
     surface = CardDialog,
     primaryContainer = Container,
-    surfaceTint = SmallICons
+    surfaceTint = SmallICons,
+    error = Alert
 )
 
 @Composable
