@@ -26,7 +26,7 @@ import com.jetpack.compose.github.github.cruise.ui.shared.utils.CommonUtils
  */
 
 object MainDestinations {
-    const val SPLASH_SCREEN_ROUTE = "splash/"
+    const val SPLASH_SCREEN_ROUTE = "splash"
     const val USERS_LIST_SCREEN_ROUTE = "users_list"
     const val USER_REPO_SCREEN_ROUTE = "user_repo"
     const val USER_REPO_DETAILS_SCREEN_ROUTE = "user_repo_details"
@@ -44,7 +44,7 @@ fun NavGraph(
 ) {
 
     NavHost(navController = navController, startDestination = startDestination) {
-        composable("splash/") {
+        composable(SPLASH_SCREEN_ROUTE) {
             SplashScreen(navController)
         }
 
