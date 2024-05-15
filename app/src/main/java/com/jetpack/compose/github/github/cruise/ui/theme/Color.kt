@@ -13,3 +13,5 @@ val TextLight = Color(0xFFB0CCCC)
 
 // systemGray2
 val SmallICons = Color(0xFF636366)
+
+val Alert = Color(0xFFF0A992)

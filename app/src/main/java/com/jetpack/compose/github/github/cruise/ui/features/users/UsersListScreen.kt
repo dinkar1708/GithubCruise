@@ -21,11 +21,12 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -116,7 +117,9 @@ fun SearchBar(
     onSearchSubmitted: (String) -> Unit,
     onClearInput: () -> Unit
 ) {
-    var searchText by remember { mutableStateOf("") }
+    // keep search text across screen rotation etc.
+    var searchText by rememberSaveable { mutableStateOf("") }
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     Box(
         modifier = Modifier
@@ -154,7 +157,10 @@ fun SearchBar(
                 imeAction = ImeAction.Search
             ),
             keyboardActions = KeyboardActions(
-                onSearch = { onSearchSubmitted(searchText) }
+                onSearch = {
+                    onSearchSubmitted(searchText)
+                    keyboardController?.hide()
+                }
             ),
             singleLine = true,
             modifier = Modifier
@@ -179,3 +185,4 @@ fun UserListScreenContentPreview() {
         )
     }
 }
+

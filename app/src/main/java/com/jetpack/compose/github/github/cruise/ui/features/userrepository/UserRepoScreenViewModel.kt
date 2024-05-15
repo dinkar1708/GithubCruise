@@ -34,8 +34,14 @@ class UserRepoScreenViewModel @Inject constructor(
     val uiStateProfile: StateFlow<UserRepoScreenProfileState> = _uiStateProfile.asStateFlow()
 
     fun loadApiData(user: User) = viewModelScope.launch(dispatcher) {
-        loadUserProfile(user)
-        loadUserRepositories(user)
+        _uiStateRepository.update { it.copy(selectedUser = user) }
+
+        if (_uiStateProfile.value.userProfile == null) {
+            loadUserProfile(user)
+        }
+        if (_uiStateRepository.value.userRepoList.isEmpty()) {
+            loadUserRepositories()
+        }
     }
 
     private suspend fun loadUserProfile(user: User) {
@@ -70,12 +76,17 @@ class UserRepoScreenViewModel @Inject constructor(
         }
     }
 
-    private suspend fun loadUserRepositories(user: User) {
+    private suspend fun loadUserRepositories() {
         _uiStateRepository.update { it.copy(isLoading = true) }
 
         try {
             val repositories =
-                userRepositoryUseCase.filterNotForkedUserRepositories(login = user.login, 1, 40)
+                userRepositoryUseCase.filterUserRepositories(
+                    _uiStateRepository.value.isShowingForkRepo,
+                    login = _uiStateRepository.value.selectedUser.login,
+                    1,
+                    40
+                )
                     .catch { exception ->
                         Timber.e("viewmodel loadUserRepositories $exception")
                         _uiStateRepository.update {
@@ -90,20 +101,18 @@ class UserRepoScreenViewModel @Inject constructor(
             if (repositories.isEmpty()) {
                 _uiStateRepository.update {
                     it.copy(
-                        selectedUser = user,
                         userRepoList = emptyList(),
                         isLoading = false,
-                        errorMessage = "There are no non-forked repositories by this user."
+                        errorMessage = "0 results for repositories."
                     )
                 }
-                return
-            }
-            _uiStateRepository.update {
-                it.copy(
-                    selectedUser = user,
-                    userRepoList = repositories,
-                    isLoading = false
-                )
+            } else {
+                _uiStateRepository.update {
+                    it.copy(
+                        userRepoList = repositories,
+                        isLoading = false
+                    )
+                }
             }
         } catch (e: Exception) {
             Timber.e("viewmodel loadUserRepositories unexpected $e")
@@ -115,4 +124,12 @@ class UserRepoScreenViewModel @Inject constructor(
             }
         }
     }
+
+    fun filterRepositories(isShowingForkRepo: Boolean) = viewModelScope.launch(dispatcher) {
+        _uiStateRepository.update {
+            it.copy(isShowingForkRepo = isShowingForkRepo)
+        }
+        loadUserRepositories()
+    }
 }
+
