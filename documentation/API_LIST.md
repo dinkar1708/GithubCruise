@@ -104,7 +104,7 @@
 <hr>
 
 **User repositories**
-- **Doc:** - ??
+- **Doc:** - https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#list-repositories-for-a-user
 - **URL:** `https://api.github.com/users/dinkar1708/repos?q=page=1&per_page=2`
 - **Header:**
     - `"X-GitHub-Api-Version": "2022-11-28"`
