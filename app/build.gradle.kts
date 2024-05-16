@@ -31,9 +31,12 @@ android {
                 "proguard-rules.pro"
             )
             buildConfigField("boolean", "DEBUG", "false")
+            // un comment it to run release build to test only
+//            signingConfig = signingConfigs.getByName("debug")
         }
         debug {
             buildConfigField("boolean", "DEBUG", "true")
+            applicationIdSuffix = ".debug"
         }
     }
     compileOptions {
