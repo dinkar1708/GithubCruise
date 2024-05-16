@@ -2,11 +2,9 @@ package com.jetpack.compose.github.github.cruise.ui.features.users
 
 import com.jetpack.compose.github.github.cruise.domain.model.SearchUser
 import com.jetpack.compose.github.github.cruise.domain.model.User
-import com.jetpack.compose.github.github.cruise.domain.model.UserRepo
 import com.jetpack.compose.github.github.cruise.domain.usecase.SearchRepositoryUseCase
 import com.jetpack.compose.github.github.cruise.network.model.ApiError
 import com.jetpack.compose.github.github.cruise.network.model.ApiErrorResponse
-import com.jetpack.compose.github.github.cruise.ui.features.userrepository.state.UserRepoViewListState
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +16,6 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert
-import org.junit.Assert.assertFalse
 import org.junit.Before
 import org.junit.Test
 
@@ -52,7 +49,7 @@ class UsersListViewModelTest {
             // Given
             val inputText = ""
             // When
-            viewModel.searchUsers( inputText)
+            viewModel.searchUsers(inputText)
 
             // Advance time to process the flow
             advanceUntilIdle()
@@ -73,12 +70,12 @@ class UsersListViewModelTest {
         runTest {
             // mock data
             // mock data
-             val user = User(
+            val user = User(
                 id = 1,
                 login = "dinkar1708",
                 avatarUrl = "https://avatars.githubusercontent.com/u/14831652?v=4",
             )
-             val searchUser = SearchUser(2, true, mutableListOf(user))
+            val searchUser = SearchUser(2, true, mutableListOf(user))
             val inputText = "dinkar1708"
             // Given
             coEvery {
@@ -90,7 +87,7 @@ class UsersListViewModelTest {
             } returns flowOf(searchUser)
 
             // When
-            viewModel.searchUsers( inputText)
+            viewModel.searchUsers(inputText)
 
             // Advance time to process the flow
             advanceUntilIdle()
@@ -122,7 +119,7 @@ class UsersListViewModelTest {
             } returns flowOf(searchUser)
 
             // When
-            viewModel.searchUsers( inputText)
+            viewModel.searchUsers(inputText)
 
             // Advance time to process the flow
             advanceUntilIdle()
@@ -173,7 +170,10 @@ class UsersListViewModelTest {
             // test loading cancelled
             Assert.assertEquals(false, stateUserList.isLoading)
             // test error message
-            Assert.assertEquals("API rate limit exceeded for 134.180.235.148. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.", stateUserList.errorMessage)
+            Assert.assertEquals(
+                "API rate limit exceeded for 134.180.235.148. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.",
+                stateUserList.errorMessage
+            )
         }
 
     @Test
@@ -188,7 +188,7 @@ class UsersListViewModelTest {
                     page,
                     pageSize
                 )
-            } throws  ApiError.NetworkError("Unknown host error!")
+            } throws ApiError.NetworkError("Unknown host error!")
 
             // When
             viewModel.searchUsers(inputText)

@@ -3,6 +3,7 @@ package com.jetpack.compose.github.github.cruise.repository.search
 import com.jetpack.compose.github.github.cruise.domain.model.SearchUser
 import com.jetpack.compose.github.github.cruise.domain.model.User
 import com.jetpack.compose.github.github.cruise.network.NetworkDataSource
+import com.jetpack.compose.github.github.cruise.network.model.ApiError
 import io.mockk.coEvery
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
@@ -48,9 +49,10 @@ class SearchRepositoryImplTest {
     }
 
     @Test
-    fun `test search Users API call success with incomplete result`() {
+    fun `test searchUsers() API call success with incomplete result`() {
         runTest {
             val userName = "dinkar1708"
+            // Given
             // set mock data for user name
             coEvery {
                 mockNetworkDataSource.searchUser(
@@ -59,9 +61,14 @@ class SearchRepositoryImplTest {
                     pageSize = 10
                 )
             } returns searchUser
+
+            // When
             // now call mock api
             val resultFlow = repository.searchUsers(userName = userName, page = 1, pageSize = 10)
             val result = resultFlow.single()
+
+            // Then
+            // test
             // for same user mock response and api response must be same
             assertEquals(searchUser, result)
             // incomplete result
@@ -70,7 +77,7 @@ class SearchRepositoryImplTest {
     }
 
     @Test
-    fun `test search Users API call fails`() {
+    fun `test searchUsers() API call unknown host host error`() {
         runTest {
             // Given
             coEvery {
@@ -79,16 +86,14 @@ class SearchRepositoryImplTest {
                     page = 1,
                     pageSize = 10
                 )
-            } throws Exception("Network Error")
+            } throws ApiError.NetworkError("Unknown host error")
             // When
             val resultFlow: Flow<SearchUser> =
                 repository.searchUsers(userName = "dinkar1708", page = 1, pageSize = 10)
             resultFlow.catch { e ->
                 // Then
-                assertTrue(e is Exception)
-                assertTrue(e.message == "Network Error")
-            }.collect { _ ->
-                // do nothing testing error case
+                assertTrue(e is ApiError)
+                assertTrue(e.message == "Unknown host error")
             }
         }
     }

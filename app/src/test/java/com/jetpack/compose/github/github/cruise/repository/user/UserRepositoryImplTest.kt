@@ -30,7 +30,7 @@ class UserRepositoryImplTest {
     private lateinit var repository: UserRepositoryImpl
 
     // mock data
-    val userProfile = UserProfile(
+    private val userProfile = UserProfile(
         id = 1,
         followers = 10,
         following = 20,
@@ -39,7 +39,7 @@ class UserRepositoryImplTest {
         login = "dinkar1708"
     )
 
-    val userRepoList = mutableListOf(
+    private val userRepoList = mutableListOf(
         UserRepo(
             id = 1,
             name = "Repo",
@@ -94,17 +94,15 @@ class UserRepositoryImplTest {
                 // Then
                 TestCase.assertTrue(e is ApiError.ApiException)
                 TestCase.assertTrue(e.message == "API rate limit exceeded for 134.180.235.148. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.")
-            }.collect { _ ->
-                // do nothing testing error case
             }
         }
     }
-
 
     @Test
     fun `test getUserRepositories user repository list API call success`() {
         runTest {
             val userName = "dinkar1708"
+            // Given
             // set mock data for user name
             coEvery {
                 mockNetworkDataSource.getUserRepositories(
@@ -113,35 +111,15 @@ class UserRepositoryImplTest {
                     pageSize = 10
                 )
             } returns userRepoList
+
+            // When
             // now call mock api
             val resultFlow =
                 repository.getUserRepositories(userName = userName, page = 1, pageSize = 10)
             val result = resultFlow.single()
+            // Then
             // for same user mock response and api response must be same
             TestCase.assertEquals(userRepoList, result)
         }
     }
-
-    // TODO fix
-//    @Test
-//    fun `test getUserRepositories API call fails`() {
-//        runTest {
-//            // Given
-//            coEvery { mockNetworkDataSource.searchUser(userName = "dinkar1708", page = 1, pageSize = 10) } throws ApiError.ApiException(
-//                ApiErrorResponse(
-//                    message = "API rate limit exceeded for 134.180.235.148. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.",
-//                    documentationUrl = "https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting"
-//                )
-//            )
-//            // When
-//            val resultFlow: Flow<List<UserRepo>> = repository.getUserRepositories(userName = "dinkar1708", page = 1, pageSize = 10 )
-//            resultFlow.catch { e ->
-//                // Then
-//                TestCase.assertTrue(e is ApiError.ApiException)
-//                TestCase.assertTrue(e.message == "API rate limit exceeded for 134.180.235.148. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.")
-//            }.collect { _ ->
-//                // do nothing testing error case
-//            }
-//        }
-//    }
 }
