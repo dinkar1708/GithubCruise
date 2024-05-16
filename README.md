@@ -19,6 +19,7 @@
     - in build gradle read below
     // un comment it to run release build to test only
     //signingConfig = signingConfigs.getByName("debug")
+- View model test guide - https://developer.android.com/codelabs/basic-android-kotlin-compose-test-viewmodel#3
 
 # TODO
 - Localization in view model

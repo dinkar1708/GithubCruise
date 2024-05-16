@@ -14,6 +14,7 @@ import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
@@ -35,10 +36,9 @@ class UserRepositoryUseCaseTest {
     }
 
     @Test
-    fun `test filter Not Forked UserRepositories `() = runTest {
+    fun `test filterUserRepositories() which are not forked on api call success`() = runTest {
         val userRepoList = mutableListOf(
             UserRepo(
-                owner = UserRepo.Owner(login = "dinakr1708", avatarUrl = "url"),
                 id = 1,
                 name = "Repo",
                 language = "JAVA",
@@ -47,12 +47,19 @@ class UserRepositoryUseCaseTest {
                 fork = false
             ),
             UserRepo(
-                owner = UserRepo.Owner(login = "dinakr1708", avatarUrl = "url"),
-                id = 1,
+                id = 2,
                 name = "Fork Repo",
                 language = "Kotlin",
                 stargazersCount = "100",
                 description = "Fork Repo Desc",
+                fork = true
+            ),
+            UserRepo(
+                id = 3,
+                name = "Fork Repo2",
+                language = "Kotlin",
+                stargazersCount = "100",
+                description = "Fork Repo Desc2",
                 fork = true
             )
         )
@@ -72,5 +79,52 @@ class UserRepositoryUseCaseTest {
         // must be not forked ie. false
         assertFalse(result.first().fork)
         assertEquals("Repo", result.first().name)
+    }
+
+
+    @Test
+    fun `test filterUserRepositories() which are forked on api call success`() = runTest {
+        val userRepoList = mutableListOf(
+            UserRepo(
+                id = 1,
+                name = "Repo",
+                language = "JAVA",
+                stargazersCount = "10",
+                description = "Android Repo Desc",
+                fork = false
+            ),
+            UserRepo(
+                id = 2,
+                name = "Fork Repo  - test this name",
+                language = "Kotlin",
+                stargazersCount = "100",
+                description = "Fork Repo Desc",
+                fork = true
+            ),
+            UserRepo(
+                id = 3,
+                name = "Fork Repo2",
+                language = "Kotlin",
+                stargazersCount = "100",
+                description = "Fork Repo Desc2",
+                fork = true
+            )
+        )
+        // Given
+        coEvery { mockRepository.getUserRepositories("dinkar1708", 1, 20) } returns flowOf(
+            userRepoList
+        )
+        // When
+        val result = userRepositoryUseCase.filterUserRepositories(
+            true,
+            "dinkar1708", 1, 20,
+        )
+            .single()
+        // Then
+        // should filter 1 from given input
+        assertEquals(2, result.size)
+        // must be forked
+        assertTrue(result.first().fork)
+        assertEquals("Fork Repo  - test this name", result.first().name)
     }
 }

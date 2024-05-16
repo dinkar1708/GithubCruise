@@ -77,7 +77,7 @@ fun UserRepoScreen(
             errorMessage = viewState.errorMessage,
             isShowForkRepo =
             {
-                viewModel.filterRepositories(it)
+                viewModel.filterRepositories(it, login)
             },
             openRepoDetails = {
                 val encodedUrl = CommonUtils.encodeUrl(it)

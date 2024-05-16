@@ -37,17 +37,17 @@ class UsersListViewModel @Inject constructor(
     private var isLoadingApiData = false
     // pagination variables end
 
-    init {
-        Timber.d("$TAG Initial load users.....")
-        loadUsers() // TODO remove at the end
-    }
+//    init {
+//        Timber.d("$TAG Initial load users.....")
+//        loadUsers() // TODO remove at the end
+//    }
 
     fun updateLastVisibleIndex(index: Int) {
         _uiState.update { _uiState.value.copy(lastVisibleItemIndex = index) }
     }
 
-    fun updateInputString(inputString: String) {
-        Timber.d("$TAG updateInputString() called...")
+    fun searchUsers(inputString: String) {
+        Timber.d("$TAG searchUsers() called...")
         userName = inputString
         // Reset page number when input string changes
         page = 1
