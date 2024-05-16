@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jetpack.compose.github.github.cruise.di.DefaultDispatcher
 import com.jetpack.compose.github.github.cruise.domain.usecase.SearchRepositoryUseCase
+import com.jetpack.compose.github.github.cruise.network.model.ApiError
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -101,10 +102,11 @@ class UsersListViewModel @Inject constructor(
 
             val userList = searchRepositoryUseCase.searchUsers(userName, page, pageSize)
                 .catch { exception ->
+                    val apiError = exception as ApiError
                     _uiState.update {
                         // update UI
                         UsersListState(
-                            errorMessage = exception.localizedMessage
+                            errorMessage = apiError.message
                                 ?: "Error searching user list",
                             isLoading = false
                         )
@@ -112,6 +114,16 @@ class UsersListViewModel @Inject constructor(
                     isLoadingApiData = false
                 }
             userList.collect { searchUser ->
+                if (searchUser.totalCount == 0) {
+                    _uiState.update {
+                        UsersListState(
+                            errorMessage = "Your search did not match any user!",
+                            isLoading = false
+                        )
+                    }
+                    return@collect
+                }
+
                 // update total result found
                 currentInputSearchTotalResultSize = searchUser.totalCount
                 // current user list data to do processing
@@ -127,13 +139,13 @@ class UsersListViewModel @Inject constructor(
                 Timber.d("$TAG UI has been updated after api data is received...")
                 isLoadingApiData = false
             }
-        } catch (e: Exception) {
-            // Handle network-related exceptions here
+        } catch (exception: Exception) {
+            val apiError = exception as ApiError
             isLoadingApiData = false
             // update UI
             _uiState.update {
                 UsersListState(
-                    errorMessage = "Network error: ${e.localizedMessage}",
+                    errorMessage = apiError.message,
                     isLoading = false
                 )
             }

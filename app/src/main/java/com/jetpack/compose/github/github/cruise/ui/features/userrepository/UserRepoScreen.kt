@@ -45,7 +45,7 @@ fun UserRepoScreen(
     val viewStateProfile by viewModel.uiStateProfile.collectAsStateWithLifecycle()
 
     LaunchedEffect(key1 = login) {
-        viewModel.loadApiData(User(login = login))
+        viewModel.loadApiData(login)
     }
 
     Column(
@@ -159,14 +159,11 @@ fun UserRepoListHeaderPreview() {
     val user = User(
         id = 1,
         login = "loginuser",
-        type = "User",
-        url = "url",
         avatarUrl = "avatarUrl",
     )
 
     val userRepoList = mutableListOf(
         UserRepo(
-            owner = UserRepo.Owner(login = "dinakr1708", avatarUrl = "url"),
             id = 1,
             name = "Repo",
             language = "JAVA",
