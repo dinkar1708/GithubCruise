@@ -59,10 +59,10 @@ fun UsersListScreen(
         onItemClick = {
             navController.navigate("${USER_REPO_SCREEN_ROUTE}/${it.login}")
         },
-        onSearchSubmitted = { viewModel.updateInputString(it) },
+        onSearchSubmitted = { viewModel.searchUsers(it) },
         onClearInput = {
             // clear text
-            viewModel.updateInputString("")
+            viewModel.searchUsers("")
         },
         onListScrolledToEnd = { i ->
             viewModel.updateLastVisibleIndex(i)

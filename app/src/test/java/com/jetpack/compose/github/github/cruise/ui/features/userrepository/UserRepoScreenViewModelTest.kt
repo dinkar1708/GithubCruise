@@ -212,7 +212,6 @@ class UserRepoScreenViewModelTest {
         Assert.assertEquals(userRepoList.size, stateRepository.userRepoList.size)
     }
 
-
     @Test
     fun `test filterRepositories() for empty repository data and error message on api call success`() =
         runTest {
