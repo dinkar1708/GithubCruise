@@ -11,9 +11,11 @@ import com.squareup.moshi.JsonClass
 data class UserRepo(
     val id: Long = 0,
     val name: String = "",
+    // can be null as per api doc
     val language: String? = "",
     @Json(name = "stargazers_count")
     val stargazersCount: String = "",
+    // can be null as per api doc
     val description: String? = "",
     @Json(name = "full_name")
     val fullName: String = "",
