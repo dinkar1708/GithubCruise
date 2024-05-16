@@ -1,9 +1,7 @@
 package com.jetpack.compose.github.github.cruise.ui.features.users
 
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jetpack.compose.github.github.cruise.R
 import com.jetpack.compose.github.github.cruise.di.DefaultDispatcher
 import com.jetpack.compose.github.github.cruise.domain.usecase.SearchRepositoryUseCase
 import com.jetpack.compose.github.github.cruise.network.model.ApiError

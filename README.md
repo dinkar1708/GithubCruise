@@ -8,6 +8,7 @@
   - https://developer.android.com/training/testing/local-tests
   - https://developer.android.com/kotlin/flow/test
 # Coding
+- Localization https://developer.android.com/training/basics/supporting-devices/languages
 - Use view model at screen leve - https://youtu.be/pCX9wvu-Bq0?t=470
 - UI state - https://developer.android.com/topic/architecture/ui-layer/stateholders#ui-state
 - UI state - https://developer.android.com/topic/architecture/ui-layer/state-production#stateflow_3
@@ -16,6 +17,8 @@
   - https://github.com/android/architecture-samples/blob/main/app/src/main/java/com/example/android/architecture/blueprints/todoapp/TodoNavGraph.kt
 
 # TODO
+- Localization in view model
+  - Change String error message to int and use like xxx.setValue(R.string.labelString);
 - User Repositories API Difficult to use pagination
 When utilizing pagination in the user repositories API, it's essential to determine the total count of API results for effective navigation. Follow these steps to discover how to retrieve the total count:
 #### Step 1

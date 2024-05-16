@@ -38,7 +38,7 @@ fun SplashScreen(navController: NavController) {
         // close splash screen
         navController.popBackStack()
         // start from user list
-        navController.navigate(USERS_LIST_SCREEN_ROUTE, )
+        navController.navigate(USERS_LIST_SCREEN_ROUTE)
     }
 
     Box(

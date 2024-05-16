@@ -9,12 +9,13 @@
     <string name="user_list_score">Score %1$s</string>
 
     <!--User Repository screen-->
-    <string name="user_repository_title_repositories">%1$s Repositories</string>
-    <string name="user_repository_fork_status">%1$s Fork</string>
+    <string name="user_repository_title_repositories">Repositories Count: %1$s </string>
+    <string name="user_repository_fork_status">Fork%1$s</string>
     <string name="user_repository_profile_followers">Followers</string>
     <string name="user_repository_profile_following">Following</string>
-    <string name="user_repository_repo_list_language">Language %1$s</string>
+    <string name="user_repository_repo_list_language">Language: </string>
 
     <!--Repository Details screen-->
     <string name="repository_details_title">Repository Details</string>
+    <string name="user_repository_list_start">" Star: "</string>
 </resources>

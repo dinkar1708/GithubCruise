@@ -92,7 +92,7 @@ fun UserProfileView(userProfile: UserProfile) {
                     Text(
                         text = stringResource(R.string.user_repository_profile_following),
                         style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.background),
-                        )
+                    )
                 }
             }
 

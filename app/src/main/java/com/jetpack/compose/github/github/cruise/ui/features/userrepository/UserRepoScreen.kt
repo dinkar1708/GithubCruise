@@ -106,7 +106,10 @@ fun UserRepoListScreenContents(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = stringResource(R.string.user_repository_title_repositories, userRepoList.size),
+                text = stringResource(
+                    R.string.user_repository_title_repositories,
+                    userRepoList.size
+                ),
                 style = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onBackground)
             )
             Spacer(modifier = Modifier.weight(1f))
