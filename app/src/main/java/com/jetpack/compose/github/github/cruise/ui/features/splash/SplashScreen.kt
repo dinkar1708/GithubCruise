@@ -35,7 +35,10 @@ fun SplashScreen(navController: NavController) {
     LaunchedEffect(key1 = isTextAnimating) {
         delay(3000)
         isTextAnimating = false
-        navController.navigate(USERS_LIST_SCREEN_ROUTE)
+        // close splash screen
+        navController.popBackStack()
+        // start from user list
+        navController.navigate(USERS_LIST_SCREEN_ROUTE, )
     }
 
     Box(

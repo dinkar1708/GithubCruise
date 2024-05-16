@@ -12,6 +12,14 @@ data class UserProfile(
     @Json(name = "avatar_url")
     val avatarUrl: String = "",
     val login: String,
+    // nullable as per api doc
+    /*
+     "name": {
+          "type": [
+            "string",
+            "null"
+          ],
+     */
     val name: String? = "",
     val followers: Int = 0,
     val following: Int = 0,
