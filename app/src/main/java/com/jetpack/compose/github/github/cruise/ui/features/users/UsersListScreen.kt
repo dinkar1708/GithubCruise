@@ -26,12 +26,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.jetpack.compose.github.github.cruise.R
 import com.jetpack.compose.github.github.cruise.domain.model.User
 import com.jetpack.compose.github.github.cruise.ui.MainDestinations.USER_REPO_SCREEN_ROUTE
 import com.jetpack.compose.github.github.cruise.ui.shared.AppActionBarView
@@ -89,7 +91,7 @@ fun UsersListScreenContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 16.dp),
-            headerText = "Users",
+            headerText = stringResource(R.string.users_page_title),
             showBackButton = false
         )
         SearchBar(onSearchSubmitted = onSearchSubmitted, onClearInput)
@@ -151,7 +153,7 @@ fun SearchBar(
             onValueChange = { searchText = it },
             label = {
                 Text(
-                    "Enter user name",
+                    stringResource(R.string.user_search_field_help),
                     style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 0.dp)
                 )

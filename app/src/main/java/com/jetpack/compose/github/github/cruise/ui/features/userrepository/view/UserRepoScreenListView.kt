@@ -16,10 +16,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.jetpack.compose.github.github.cruise.R
 import com.jetpack.compose.github.github.cruise.domain.model.UserRepo
 import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
 
@@ -74,12 +76,14 @@ fun RepositoryListItem(userRepo: UserRepo, openRepoDetails: (String) -> Unit) {
                 horizontalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Language: ",
+                    text = stringResource(
+                        R.string.user_repository_repo_list_language
+                    ),
                     style = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.primary),
 
                     )
                 Text(
-                    text = "${userRepo.language ?: "NA"}",
+                    text = userRepo.language ?: "NA",
                     style = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.colorScheme.surfaceTint),
 
                     )
@@ -93,7 +97,7 @@ fun RepositoryListItem(userRepo: UserRepo, openRepoDetails: (String) -> Unit) {
                     Icons.Filled.Star, "", tint = MaterialTheme.colorScheme.surfaceTint,
                 )
                 Text(
-                    text = " Star: ",
+                    text = stringResource(R.string.user_repository_list_start),
                     style = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.primary),
                     overflow = TextOverflow.Ellipsis
                 )

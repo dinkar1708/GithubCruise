@@ -19,10 +19,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.jetpack.compose.github.github.cruise.R
 import com.jetpack.compose.github.github.cruise.domain.model.User
 import com.jetpack.compose.github.github.cruise.domain.model.UserProfile
 import com.jetpack.compose.github.github.cruise.domain.model.UserRepo
@@ -104,7 +106,10 @@ fun UserRepoListScreenContents(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "${userRepoList.size} Repositories",
+                text = stringResource(
+                    R.string.user_repository_title_repositories,
+                    userRepoList.size
+                ),
                 style = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onBackground)
             )
             Spacer(modifier = Modifier.weight(1f))
@@ -116,7 +121,10 @@ fun UserRepoListScreenContents(
                 }
             )
             Text(
-                text = "${if (isShowingFork) "On" else "Off"} Fork",
+                text = stringResource(
+                    R.string.user_repository_fork_status,
+                    if (isShowingFork) "On" else "Off"
+                ),
                 style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.onBackground)
             )
         }
