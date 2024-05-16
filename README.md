@@ -15,6 +15,10 @@
 - Current nav controller following below with bit modification
   - https://github.com/android/compose-samples/blob/master/JetNews/app/src/main/java/com/example/jetnews/ui/JetnewsNavGraph.kt
   - https://github.com/android/architecture-samples/blob/main/app/src/main/java/com/example/android/architecture/blueprints/todoapp/TodoNavGraph.kt
+  - run release build
+    - in build gradle read below
+    // un comment it to run release build to test only
+    //signingConfig = signingConfigs.getByName("debug")
 
 # TODO
 - Localization in view model

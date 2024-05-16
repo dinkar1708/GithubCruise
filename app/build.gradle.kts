@@ -35,7 +35,7 @@ android {
             buildConfigField("String", "API_BASE_URL", "\"https://release.api.github.com\"")
             buildConfigField("String", "API_VERSION", "\"2022-11-28\"")
             // un comment it to run release build to test only
-            signingConfig = signingConfigs.getByName("debug")
+//            signingConfig = signingConfigs.getByName("debug")
         }
         debug {
             manifestPlaceholders += mapOf("app_name" to "DebugGithubCruise")
