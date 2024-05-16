@@ -13,10 +13,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.jetpack.compose.github.github.cruise.R
 import com.jetpack.compose.github.github.cruise.domain.model.UserProfile
 import com.jetpack.compose.github.github.cruise.ui.shared.NetworkImageView
 import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
@@ -45,7 +47,10 @@ fun UserProfileView(userProfile: UserProfile) {
                 .size(size = 100.dp)
                 .padding(start = 0.dp),
             imageUrl = userProfile.avatarUrl,
-            contentDescription = "Profile picture of ${userProfile.login}"
+            contentDescription = stringResource(
+                R.string.profile_picture_off_icon_content_desc,
+                userProfile.login
+            )
         )
 
         Column(Modifier.padding(start = 16.dp, top = 16.dp)) {
@@ -69,7 +74,7 @@ fun UserProfileView(userProfile: UserProfile) {
                         overflow = TextOverflow.Ellipsis
                     )
                     Text(
-                        text = "Followers",
+                        text = stringResource(R.string.user_repository_profile_followers),
                         style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.background),
                     )
                 }
@@ -85,9 +90,8 @@ fun UserProfileView(userProfile: UserProfile) {
                         overflow = TextOverflow.Ellipsis
                     )
                     Text(
-                        text = "Following",
+                        text = stringResource(R.string.user_repository_profile_following),
                         style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.background),
-
                         )
                 }
             }

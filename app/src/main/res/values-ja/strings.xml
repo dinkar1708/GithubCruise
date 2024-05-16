@@ -1,0 +1,20 @@
+<resources>
+    <!--Shared-->
+    <string name="app_name">GithubCruise</string>
+    <string name="profile_picture_off_icon_content_desc">%1$s のプロフィール写真</string>
+
+    <!--User screen-->
+    <string name="users_page_title">ユーザー</string>
+    <string name="user_search_field_help">ユーザー名を入力してください</string>
+    <string name="user_list_score">%1$s のスコア</string>
+
+    <!--User Repository screen-->
+    <string name="user_repository_title_repositories">%1$s のリポジトリ</string>
+    <string name="user_repository_fork_status">%1$s のフォーク</string>
+    <string name="user_repository_profile_followers">フォロワー</string>
+    <string name="user_repository_profile_following">フォロー中</string>
+    <string name="user_repository_repo_list_language">言語 %1$s</string>
+
+    <!--Repository Details screen-->
+    <string name="repository_details_title">リポジトリの詳細</string>
+</resources>

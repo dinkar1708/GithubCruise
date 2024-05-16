@@ -12,10 +12,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.jetpack.compose.github.github.cruise.R
 import com.jetpack.compose.github.github.cruise.domain.model.UserRepo
 import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
 
@@ -61,26 +63,24 @@ fun RepositoryListItem(userRepo: UserRepo, openRepoDetails: (String) -> Unit) {
                 style = MaterialTheme.typography.bodyLarge.copy(
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onBackground
-                ),
-
-                )
-
+                ))
 
             Text(
-                text = "Language ${userRepo.language}",
+                text  = stringResource(
+                    R.string.user_repository_repo_list_language,
+                    userRepo.language ?: ""  ),
                 style = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.colorScheme.surfaceTint),
-
                 )
+
             Text(
                 text = "* ${userRepo.stargazersCount}",
                 style = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.colorScheme.surfaceTint),
-
                 overflow = TextOverflow.Ellipsis
             )
+
             Text(
                 text = userRepo.description ?: "",
                 style = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.colorScheme.surfaceTint),
-
                 )
         }
     }

@@ -8,6 +8,7 @@
   - https://developer.android.com/training/testing/local-tests
   - https://developer.android.com/kotlin/flow/test
 # Coding
+- Localization https://developer.android.com/training/basics/supporting-devices/languages
 - Use view model at screen leve - https://youtu.be/pCX9wvu-Bq0?t=470
 - UI state - https://developer.android.com/topic/architecture/ui-layer/stateholders#ui-state
 - UI state - https://developer.android.com/topic/architecture/ui-layer/state-production#stateflow_3
@@ -21,7 +22,8 @@
 - **Doc:** - ??
 - **URL:** `https://api.github.com/users/dinkar1708/repos?q=page=1&per_page=2`
 ```
-
+- Localization in view model
+  - Change String error message to int and use like xxx.setValue(R.string.labelString);
 - Check all apis required fields from doc
 - Verify code coverage - https://developer.android.com/codelabs/basic-android-kotlin-compose-test-viewmodel#4
 - Navigation

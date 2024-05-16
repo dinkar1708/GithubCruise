@@ -24,10 +24,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
+import com.jetpack.compose.github.github.cruise.R
 import com.jetpack.compose.github.github.cruise.domain.model.User
 import com.jetpack.compose.github.github.cruise.ui.shared.NetworkImageView
 import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
@@ -115,7 +117,10 @@ fun UserListItem(user: User, onItemClick: (User) -> Unit) {
             NetworkImageView(
                 modifier = Modifier.size(size = 80.dp),
                 imageUrl = user.avatarUrl,
-                contentDescription = "Profile picture of ${user.login}"
+                contentDescription = stringResource(
+                    R.string.profile_picture_off_icon_content_desc,
+                    user.login
+                )
             )
             Column(
                 modifier = Modifier
@@ -128,7 +133,7 @@ fun UserListItem(user: User, onItemClick: (User) -> Unit) {
                     color = MaterialTheme.colorScheme.onPrimary,
                 )
                 Text(
-                    text = "Score ${user.score}",
+                    text = stringResource(R.string.user_list_score, user.score),
                     style = MaterialTheme.typography.labelMedium.copy(color = MaterialTheme.colorScheme.onPrimaryContainer)
                 )
             }
