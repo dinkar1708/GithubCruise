@@ -20,12 +20,4 @@ data class UserRepo(
     @Json(name = "html_url")
     val htmlUrl: String = "",
     val fork: Boolean,
-    val owner: Owner? = null // Add owner property
-) {
-    @JsonClass(generateAdapter = true)
-    data class Owner(
-        val login: String = "",
-        @Json(name = "avatar_url")
-        val avatarUrl: String = ""
-    )
-}
+)

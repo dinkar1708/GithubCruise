@@ -166,7 +166,6 @@ fun UserRepoListHeaderPreview() {
 
     val userRepoList = mutableListOf(
         UserRepo(
-            owner = UserRepo.Owner(login = "dinakr1708", avatarUrl = "url"),
             id = 1,
             name = "Repo",
             language = "JAVA",

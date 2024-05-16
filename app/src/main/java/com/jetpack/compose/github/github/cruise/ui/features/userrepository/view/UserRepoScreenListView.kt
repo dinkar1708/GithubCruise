@@ -92,7 +92,6 @@ fun UserRepositoryListPreview() {
     val repoList =
         mutableListOf(
             UserRepo(
-                owner = UserRepo.Owner(login = "dinakr1708", avatarUrl = "url"),
                 id = 1,
                 name = "Repo",
                 language = "JAVA",

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.jetpack.compose.github.github.cruise.di.DefaultDispatcher
 import com.jetpack.compose.github.github.cruise.domain.model.User
 import com.jetpack.compose.github.github.cruise.domain.usecase.UserRepositoryUseCase
+import com.jetpack.compose.github.github.cruise.network.model.ApiError
 import com.jetpack.compose.github.github.cruise.ui.features.userrepository.state.UserRepoScreenProfileState
 import com.jetpack.compose.github.github.cruise.ui.features.userrepository.state.UserRepoViewListState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -51,9 +52,10 @@ class UserRepoScreenViewModel @Inject constructor(
             val userProfile = userRepositoryUseCase.getUserProfile(login = user.login)
                 .catch { exception ->
                     Timber.e("viewmodel loadUserProfile error $exception")
+                    val apiError = exception as ApiError
                     _uiStateProfile.update {
                         it.copy(
-                            errorMessage = exception.toString(),
+                            errorMessage = apiError.message,
                             isLoading = false
                         )
                     }
@@ -62,14 +64,16 @@ class UserRepoScreenViewModel @Inject constructor(
             _uiStateProfile.update {
                 it.copy(
                     userProfile = userProfile,
-                    isLoading = false
+                    isLoading = false,
+                    errorMessage = ""
                 )
             }
-        } catch (e: Exception) {
-            Timber.e("viewmodel loadUserProfile unexpected $e")
+        } catch (exception: Exception) {
+            Timber.e("viewmodel loadUserProfile unexpected $exception")
+            val apiError = exception as ApiError
             _uiStateProfile.update {
                 it.copy(
-                    errorMessage = "Network error: ${e.localizedMessage}",
+                    errorMessage = apiError.message,
                     isLoading = false
                 )
             }
@@ -89,9 +93,10 @@ class UserRepoScreenViewModel @Inject constructor(
                 )
                     .catch { exception ->
                         Timber.e("viewmodel loadUserRepositories $exception")
+                        val apiError = exception as ApiError
                         _uiStateRepository.update {
                             it.copy(
-                                errorMessage = exception.toString(),
+                                errorMessage = apiError.message,
                                 isLoading = false
                             )
                         }
@@ -110,15 +115,18 @@ class UserRepoScreenViewModel @Inject constructor(
                 _uiStateRepository.update {
                     it.copy(
                         userRepoList = repositories,
-                        isLoading = false
+                        isLoading = false,
+                        errorMessage = ""
                     )
                 }
             }
-        } catch (e: Exception) {
-            Timber.e("viewmodel loadUserRepositories unexpected $e")
+        } catch (exception: Exception) {
+            Timber.e("viewmodel loadUserRepositories unexpected $exception")
+            val apiError = exception as ApiError
+
             _uiStateRepository.update {
                 it.copy(
-                    errorMessage = "Network error: ${e.localizedMessage}",
+                    errorMessage = apiError.message,
                     isLoading = false
                 )
             }
