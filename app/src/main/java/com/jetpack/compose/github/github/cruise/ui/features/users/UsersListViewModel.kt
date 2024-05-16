@@ -114,7 +114,7 @@ class UsersListViewModel @Inject constructor(
                     isLoadingApiData = false
                 }
             userList.collect { searchUser ->
-                if(searchUser.totalCount == 0) {
+                if (searchUser.totalCount == 0) {
                     _uiState.update {
                         UsersListState(
                             errorMessage = "Your search did not match any user!",

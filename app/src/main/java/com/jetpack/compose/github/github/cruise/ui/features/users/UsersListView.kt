@@ -143,12 +143,10 @@ fun UserListPreview() {
         User(
             id = 1,
             login = "dinkar1708",
-            type = "User",
             avatarUrl = "https://avatars.githubusercontent.com/u/14831652?v=4",
         ), User(
             id = 2,
             login = "dinkar1708",
-            type = "User",
             avatarUrl = "https://avatars.githubusercontent.com/u/14831652?v=4",
         )
     )

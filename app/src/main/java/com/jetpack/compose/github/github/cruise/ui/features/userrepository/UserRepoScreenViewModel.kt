@@ -3,7 +3,6 @@ package com.jetpack.compose.github.github.cruise.ui.features.userrepository
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jetpack.compose.github.github.cruise.di.DefaultDispatcher
-import com.jetpack.compose.github.github.cruise.domain.model.User
 import com.jetpack.compose.github.github.cruise.domain.usecase.UserRepositoryUseCase
 import com.jetpack.compose.github.github.cruise.network.model.ApiError
 import com.jetpack.compose.github.github.cruise.ui.features.userrepository.state.UserRepoScreenProfileState
@@ -34,22 +33,22 @@ class UserRepoScreenViewModel @Inject constructor(
     private val _uiStateProfile = MutableStateFlow(UserRepoScreenProfileState())
     val uiStateProfile: StateFlow<UserRepoScreenProfileState> = _uiStateProfile.asStateFlow()
 
-    fun loadApiData(user: User) = viewModelScope.launch(dispatcher) {
-        _uiStateRepository.update { it.copy(selectedUser = user) }
+    fun loadApiData(login: String) = viewModelScope.launch(dispatcher) {
+        _uiStateRepository.update { it.copy(login = login) }
 
         if (_uiStateProfile.value.userProfile == null) {
-            loadUserProfile(user)
+            loadUserProfile(login)
         }
         if (_uiStateRepository.value.userRepoList.isEmpty()) {
             loadUserRepositories()
         }
     }
 
-    private suspend fun loadUserProfile(user: User) {
+    private suspend fun loadUserProfile(login: String) {
         _uiStateProfile.update { it.copy(isLoading = true) }
 
         try {
-            val userProfile = userRepositoryUseCase.getUserProfile(login = user.login)
+            val userProfile = userRepositoryUseCase.getUserProfile(login = login)
                 .catch { exception ->
                     Timber.e("viewmodel loadUserProfile error $exception")
                     val apiError = exception as ApiError
@@ -87,7 +86,7 @@ class UserRepoScreenViewModel @Inject constructor(
             val repositories =
                 userRepositoryUseCase.filterUserRepositories(
                     _uiStateRepository.value.isShowingForkRepo,
-                    login = _uiStateRepository.value.selectedUser.login,
+                    login = _uiStateRepository.value.login,
                     1,
                     40
                 )
