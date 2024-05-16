@@ -43,60 +43,6 @@ class UserRepoScreenViewModelTest {
     }
 
     @Test
-    fun `test loadApiData() for uiStateProfile & uiStateRepository state and message on api call failed`() =
-        runTest {
-            // Given
-            coEvery { mockUserRepositoryUseCase.getUserProfile("dinkar1708") } throws ApiError.ApiException(
-                ApiErrorResponse(
-                    message = "API rate limit exceeded for 134.180.235.148. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.",
-                    documentationUrl = "https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting"
-                )
-            )
-            coEvery {
-                mockUserRepositoryUseCase.filterUserRepositories(
-                    false,
-                    "dinkar1708",
-                    pageNumber,
-                    pageSize
-                )
-            } throws ApiError.ApiException(
-                ApiErrorResponse(
-                    message = "API rate limit exceeded for 134.180.235.148. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.",
-                    documentationUrl = "https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting"
-                )
-            )
-
-            // When
-            // empty text
-            viewModel.loadApiData("dinkar1708")
-
-            // Advance time to process the flow
-            advanceUntilIdle()
-
-            // Then
-
-            // test profile
-            val stateProfile = viewModel.uiStateProfile.value
-            // checking loading without mock data
-            Assert.assertEquals(false, stateProfile.isLoading)
-            // Network error is added from view model so lets test it.
-            Assert.assertEquals(
-                "API rate limit exceeded for 134.180.235.148. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.",
-                stateProfile.errorMessage
-            )
-
-            // test repository
-            val stateRepository = viewModel.uiStateRepository.value
-            // checking loading without mock data
-            Assert.assertEquals(false, stateRepository.isLoading)
-            // Network error is added from view model so lets test it.
-            Assert.assertEquals(
-                "API rate limit exceeded for 134.180.235.148. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.",
-                stateRepository.errorMessage
-            )
-        }
-
-    @Test
     fun `test loadApiData() for uiStateProfile & uiStateRepository data on api call success`() =
         runTest {
             // mock data
@@ -163,6 +109,60 @@ class UserRepoScreenViewModelTest {
         }
 
     @Test
+    fun `test loadApiData() for uiStateProfile & uiStateRepository state and message on api call failed`() =
+        runTest {
+            // Given
+            coEvery { mockUserRepositoryUseCase.getUserProfile("dinkar1708") } throws ApiError.ApiException(
+                ApiErrorResponse(
+                    message = "API rate limit exceeded for 134.180.235.148. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.",
+                    documentationUrl = "https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting"
+                )
+            )
+            coEvery {
+                mockUserRepositoryUseCase.filterUserRepositories(
+                    false,
+                    "dinkar1708",
+                    pageNumber,
+                    pageSize
+                )
+            } throws ApiError.ApiException(
+                ApiErrorResponse(
+                    message = "API rate limit exceeded for 134.180.235.148. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.",
+                    documentationUrl = "https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting"
+                )
+            )
+
+            // When
+            // empty text
+            viewModel.loadApiData("dinkar1708")
+
+            // Advance time to process the flow
+            advanceUntilIdle()
+
+            // Then
+
+            // test profile
+            val stateProfile = viewModel.uiStateProfile.value
+            // checking loading without mock data
+            Assert.assertEquals(false, stateProfile.isLoading)
+            // Network error is added from view model so lets test it.
+            Assert.assertEquals(
+                "API rate limit exceeded for 134.180.235.148. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.",
+                stateProfile.errorMessage
+            )
+
+            // test repository
+            val stateRepository = viewModel.uiStateRepository.value
+            // checking loading without mock data
+            Assert.assertEquals(false, stateRepository.isLoading)
+            // Network error is added from view model so lets test it.
+            Assert.assertEquals(
+                "API rate limit exceeded for 134.180.235.148. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.",
+                stateRepository.errorMessage
+            )
+        }
+
+    @Test
     fun `test filterRepositories() for uiStateRepository data on api call success`() = runTest {
         // mock data
         val login = "dinkar1708"
@@ -186,7 +186,6 @@ class UserRepoScreenViewModelTest {
             ),
         )
         // Given
-        // NOTE this time passing true for is showing for repo because our function[filterRepositories] is changing its value
         coEvery {
             mockUserRepositoryUseCase.filterUserRepositories(
                 true,
@@ -251,5 +250,4 @@ class UserRepoScreenViewModelTest {
             // check that got empty data
             Assert.assertEquals(expectedState.userRepoList, stateRepository.userRepoList)
         }
-
 }

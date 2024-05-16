@@ -61,7 +61,7 @@ class UserRepositoryImplTest {
     }
 
     @Test
-    fun `test getUserProfile Users API call success`() {
+    fun `test getUserProfile() Users API call success`() {
         runTest {
             val userName = "dinkar1708"
             // Given
@@ -79,7 +79,7 @@ class UserRepositoryImplTest {
     }
 
     @Test
-    fun `test getUserProfile API call rate limit exceeded, api failed`() {
+    fun `test getUserProfile() API call rate limit exceeded, api failed`() {
         runTest {
             // Given
             coEvery { mockNetworkDataSource.getUserProfile(userName = "dinkar1708") } throws ApiError.ApiException(
@@ -99,7 +99,7 @@ class UserRepositoryImplTest {
     }
 
     @Test
-    fun `test getUserRepositories user repository list API call success`() {
+    fun `test getUserRepositories() user repository list API call success`() {
         runTest {
             val userName = "dinkar1708"
             // Given

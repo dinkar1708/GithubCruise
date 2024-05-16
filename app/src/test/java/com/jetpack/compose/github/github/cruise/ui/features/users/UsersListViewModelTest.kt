@@ -19,11 +19,9 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
-
 /**
  * Created by Dinakar Maurya on 2024/05/13
  */
-// TODO
 class UsersListViewModelTest {
     private val mockSearchRepositoryUseCase: SearchRepositoryUseCase = mockk()
     private val testDispatcher = StandardTestDispatcher()
@@ -42,28 +40,6 @@ class UsersListViewModelTest {
     fun tearDown() {
         Dispatchers.resetMain()
     }
-
-    @Test
-    fun `test searchUsers() for loading end and error message on input text search`() =
-        runTest {
-            // Given
-            val inputText = ""
-            // When
-            viewModel.searchUsers(inputText)
-
-            // Advance time to process the flow
-            advanceUntilIdle()
-
-            // Then
-
-            // test
-            // test state expected value and correct message
-            val stateUserList = viewModel.uiState.value
-            // test loading
-            Assert.assertEquals(false, stateUserList.isLoading)
-            // check that got correct error message
-            Assert.assertEquals("Input user name to search", stateUserList.errorMessage)
-        }
 
     @Test
     fun `test searchUsers() for user valid list on search api call success`() =
@@ -102,7 +78,6 @@ class UsersListViewModelTest {
             Assert.assertEquals(searchUser.users, stateUserList.userList)
         }
 
-
     @Test
     fun `test searchUsers() for user no matching user found on api call success`() =
         runTest {
@@ -135,6 +110,28 @@ class UsersListViewModelTest {
             Assert.assertEquals("Your search did not match any user!", stateUserList.errorMessage)
             // check that 0 results
             Assert.assertTrue(stateUserList.userList.isEmpty())
+        }
+
+    @Test
+    fun `test searchUsers() for loading end and error message on input text search`() =
+        runTest {
+            // Given
+            val inputText = ""
+            // When
+            viewModel.searchUsers(inputText)
+
+            // Advance time to process the flow
+            advanceUntilIdle()
+
+            // Then
+
+            // test
+            // test state expected value and correct message
+            val stateUserList = viewModel.uiState.value
+            // test loading
+            Assert.assertEquals(false, stateUserList.isLoading)
+            // check that got correct error message
+            Assert.assertEquals("Input user name to search", stateUserList.errorMessage)
         }
 
     @Test

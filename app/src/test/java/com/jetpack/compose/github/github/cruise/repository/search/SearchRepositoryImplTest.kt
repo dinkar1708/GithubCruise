@@ -23,7 +23,6 @@ import org.junit.Test
 /**
  * Created by Dinakar Maurya on 2024/05/13
  */
-// TODO
 class SearchRepositoryImplTest {
     private val mockNetworkDataSource: NetworkDataSource = mockk()
     private val testDispatcher = StandardTestDispatcher()
@@ -49,8 +48,9 @@ class SearchRepositoryImplTest {
     }
 
     @Test
-    fun `test searchUsers() API call success with incomplete result`() {
+    fun `test searchUsers() API call success with result`() {
         runTest {
+            val searchUser = SearchUser(2, false, mutableListOf(user))
             val userName = "dinkar1708"
             // Given
             // set mock data for user name
@@ -71,8 +71,32 @@ class SearchRepositoryImplTest {
             // test
             // for same user mock response and api response must be same
             assertEquals(searchUser, result)
+        }
+    }
+
+    @Test
+    fun `test searchUsers() API call success with incomplete result true`() {
+        runTest {
+            val userName = "dinkar1708"
+            // Given
+            // set mock data for user name
+            coEvery {
+                mockNetworkDataSource.searchUser(
+                    userName = userName,
+                    page = 1,
+                    pageSize = 10
+                )
+            } returns searchUser
+
+            // When
+            // now call mock api
+            val resultFlow = repository.searchUsers(userName = userName, page = 1, pageSize = 10)
+            val result = resultFlow.single()
+
+            // Then
+            // test
             // incomplete result
-            assertTrue(searchUser.incompleteResults)
+            assertEquals(result.incompleteResults, searchUser.incompleteResults)
         }
     }
 
