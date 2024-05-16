@@ -30,10 +30,20 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            manifestPlaceholders += mapOf("app_name" to "GithubCruise")
             buildConfigField("boolean", "DEBUG", "false")
+            buildConfigField("String", "API_BASE_URL", "\"https://release.api.github.com\"")
+            buildConfigField("String", "API_VERSION", "\"2022-11-28\"")
+            // un comment it to run release build to test only
+//            signingConfig = signingConfigs.getByName("debug")
         }
         debug {
+            manifestPlaceholders += mapOf("app_name" to "DebugGithubCruise")
             buildConfigField("boolean", "DEBUG", "true")
+            buildConfigField("String", "API_BASE_URL", "\"https://api.github.com\"")
+            buildConfigField("String", "API_VERSION", "\"2022-11-28\"")
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "debug"
         }
     }
     compileOptions {

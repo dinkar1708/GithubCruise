@@ -18,7 +18,7 @@ class ApiInterceptor(private val moshi: Moshi) : Interceptor {
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request().newBuilder()
-            .addHeader("X-GitHub-Api-Version", ApiConstants.GITHUB_API_VERSION_V3)
+            .addHeader("X-GitHub-Api-Version", ApiConstants.API_VERSION)
             .build()
 
         try {
