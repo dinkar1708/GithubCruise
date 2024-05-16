@@ -17,19 +17,29 @@ import java.net.UnknownHostException
 class ApiInterceptor(private val moshi: Moshi) : Interceptor {
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
+        val request = chain.request().newBuilder()
+            .addHeader("X-GitHub-Api-Version", ApiConstants.GITHUB_API_VERSION_V3)
+            .build()
+
         try {
-            val request = chain.request().newBuilder()
-                .addHeader("X-GitHub-Api-Version", ApiConstants.GITHUB_API_VERSION_V3)
-                .build()
-            // parse response
             val response = chain.proceed(request)
+
             if (!response.isSuccessful) {
-                response.body?.let { responseBody ->
-                    handleError(responseBody)
+                when (response.code) {
+                    // handle github api exception as per documentation
+                    // https://docs.github.com/en/rest/search/search?apiVersion=2022-11-28#search-users--status-codes
+                    // https://docs.github.com/en/rest/users/users?apiVersion=2022-11-28#get-a-user--status-codes
+                    404 -> throw ApiError.ResourceNotFoundError("Resource not found")
+                    304 -> throw ApiError.NotModifiedError("Not modified")
+                    422 -> throw ApiError.ValidationFailedError("Validation failed or the endpoint has been spammed")
+                    503 -> throw ApiError.ServiceUnavailableError("Service unavailable")
+                    else -> response.body?.let { responseBody ->
+                        handleError(responseBody)
+                    }
                 }
             }
             return response
-        }catch (exception: UnknownHostException){
+        } catch (exception: UnknownHostException) {
             throw ApiError.NetworkError(exception.message ?: "Unknown host error")
         }
     }
@@ -51,6 +61,4 @@ class ApiInterceptor(private val moshi: Moshi) : Interceptor {
             throw ApiError.UnknownError
         }
     }
-
-
 }
