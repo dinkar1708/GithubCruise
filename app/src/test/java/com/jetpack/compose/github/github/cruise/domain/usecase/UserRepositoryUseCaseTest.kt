@@ -38,7 +38,6 @@ class UserRepositoryUseCaseTest {
     fun `test filter Not Forked UserRepositories `() = runTest {
         val userRepoList = mutableListOf(
             UserRepo(
-                owner = UserRepo.Owner(login = "dinakr1708", avatarUrl = "url"),
                 id = 1,
                 name = "Repo",
                 language = "JAVA",
@@ -47,7 +46,6 @@ class UserRepositoryUseCaseTest {
                 fork = false
             ),
             UserRepo(
-                owner = UserRepo.Owner(login = "dinakr1708", avatarUrl = "url"),
                 id = 1,
                 name = "Fork Repo",
                 language = "Kotlin",
