@@ -1,4 +1,4 @@
-package com.jetpack.compose.github.github.cruise.ui.features.users
+package com.jetpack.compose.github.github.cruise.ui.features.users.state
 
 import com.jetpack.compose.github.github.cruise.domain.model.User
 

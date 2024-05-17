@@ -6,6 +6,23 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 
+
+private val LightColorScheme = lightColorScheme(
+    background = White,
+    onBackground = BLACK_DARK,
+
+    primary = DarkColor,
+    onPrimary = WhiteLight,
+
+    primaryContainer = MediumDarkColor,
+    onPrimaryContainer = WhiteLight2,
+
+    onSurface = TextLight,
+    surface = CardDialog,
+    surfaceTint = SmallICons,
+    error = Alert
+)
+
 private val DarkColorScheme = darkColorScheme(
     background = BLACK_DARK,
     onBackground = White,
@@ -23,23 +40,6 @@ private val DarkColorScheme = darkColorScheme(
     // small icons, clear button etc.
     surfaceTint = SmallICons,
     // Error
-    error = Alert
-)
-
-
-private val LightColorScheme = lightColorScheme(
-    background = White,
-    onBackground = BLACK_DARK,
-
-    primary = DarkColor,
-    onPrimary = WhiteLight,
-
-    primaryContainer = MediumDarkColor,
-    onPrimaryContainer = WhiteLight2,
-
-    onSurface = TextLight,
-    surface = CardDialog,
-    surfaceTint = SmallICons,
     error = Alert
 )
 

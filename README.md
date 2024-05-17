@@ -20,7 +20,7 @@
     // un comment it to run release build to test only
     //signingConfig = signingConfigs.getByName("debug")
 - View model test guide - https://developer.android.com/codelabs/basic-android-kotlin-compose-test-viewmodel#3
-
+- Typography guide - https://developer.android.com/reference/kotlin/androidx/compose/material3/Typography
 # TODO
 - Localization in view model
   - Change String error message to int and use like xxx.setValue(R.string.labelString);
@@ -47,3 +47,7 @@ This endpoint will return 28 results, indicating that there is data available. B
 # Try
 ## Pagination
 - https://docs.github.com/en/rest/using-the-rest-api/using-pagination-in-the-rest-api?apiVersion=2022-11-28
+
+# Extra
+supported 99.6% of market devices by minimum 21 api level
+<img width="825" alt="Screenshot 2024-05-17 at 15 37 05" src="https://github.com/dinkar1708/GithubCruise/assets/14831652/a6bc0aa7-cd6f-42a6-ae5f-d14769f1e991">

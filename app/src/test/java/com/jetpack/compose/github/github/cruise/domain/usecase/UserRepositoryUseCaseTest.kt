@@ -5,6 +5,7 @@ import com.jetpack.compose.github.github.cruise.repository.user.UserRepository
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -18,6 +19,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class UserRepositoryUseCaseTest {
 
     private val mockRepository: UserRepository = mockk()

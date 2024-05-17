@@ -1,5 +1,6 @@
 package com.jetpack.compose.github.github.cruise.ui.shared
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,13 +11,16 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
 
 /**
  * Created by Dinakar Maurya on 2024/05/15.
@@ -29,9 +33,9 @@ fun SharedErrorView(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .padding(top = 100.dp)
+            .padding(top = 50.dp)
     ) {
         Icon(
             imageVector = Icons.Filled.Info,
@@ -47,5 +51,15 @@ fun SharedErrorView(
                 fontWeight = FontWeight.Bold
             ),
         )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SharedErrorViewPreview() {
+    GithubCruiseTheme {
+        Surface {
+            SharedErrorView(errorMessage = "Error")
+        }
     }
 }

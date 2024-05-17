@@ -1,4 +1,4 @@
-package com.jetpack.compose.github.github.cruise.ui.features.users
+package com.jetpack.compose.github.github.cruise.ui.features.users.view
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -16,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -28,7 +30,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.rememberNavController
 import com.jetpack.compose.github.github.cruise.R
 import com.jetpack.compose.github.github.cruise.domain.model.User
 import com.jetpack.compose.github.github.cruise.ui.shared.NetworkImageView
@@ -50,14 +51,12 @@ fun UsersListView(
     val scrollState = rememberLazyListState()
     var scrolledToEnd by remember { mutableStateOf(false) }
     val TAG = "UsersListView"
-    val navController = rememberNavController()
 
-    LazyColumn(
-        modifier = modifier.background(MaterialTheme.colorScheme.background),
-        state = scrollState
-    ) {
-        items(userList.size) { index ->
-            UserListItem(user = userList[index], onItemClick = onItemClick)
+    LazyColumn(modifier = modifier, state = scrollState) {
+        itemsIndexed(userList) { _, user ->
+            key(user.id) {
+                UserListItem(user = user, onItemClick = onItemClick)
+            }
         }
     }
 
@@ -78,10 +77,10 @@ fun UsersListView(
     }
     // TODO Handle restoring the scroll position of the list after the next page data is loaded.
     LaunchedEffect(userList) {
-        Timber.d("$TAG listen userList ...lastVisibleItemIndex $lastVisibleItemIndex user size ${userList.size} ")
+//        Timber.d("$TAG listen userList ...lastVisibleItemIndex $lastVisibleItemIndex user size ${userList.size} ")
     }
     LaunchedEffect(lastVisibleItemIndex) {
-        Timber.d("$TAG listen lastVisibleItemIndex ...lastVisibleItemIndex $lastVisibleItemIndex user size ${userList.size} ")
+//        Timber.d("$TAG listen lastVisibleItemIndex ...lastVisibleItemIndex $lastVisibleItemIndex user size ${userList.size} ")
         if (lastVisibleItemIndex > 0) {
             // This can scroll, but it is not accurate.
             scrollState.scrollToItem(lastVisibleItemIndex)
@@ -134,7 +133,7 @@ fun UserListItem(user: User, onItemClick: (User) -> Unit) {
                 )
                 Text(
                     text = stringResource(R.string.user_list_score, user.score),
-                    style = MaterialTheme.typography.labelMedium.copy(color = MaterialTheme.colorScheme.onPrimaryContainer)
+                    style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.onPrimaryContainer)
                 )
             }
         }

@@ -9,6 +9,7 @@ import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.single
@@ -23,6 +24,7 @@ import org.junit.Test
 /**
  * Created by Dinakar Maurya on 2024/05/13
  */
+@OptIn(ExperimentalCoroutinesApi::class)
 class SearchRepositoryImplTest {
     private val mockNetworkDataSource: NetworkDataSource = mockk()
     private val testDispatcher = StandardTestDispatcher()

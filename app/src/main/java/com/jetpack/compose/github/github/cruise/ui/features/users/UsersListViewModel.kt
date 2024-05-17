@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.jetpack.compose.github.github.cruise.di.DefaultDispatcher
 import com.jetpack.compose.github.github.cruise.domain.usecase.SearchRepositoryUseCase
 import com.jetpack.compose.github.github.cruise.network.model.ApiError
+import com.jetpack.compose.github.github.cruise.ui.features.users.state.UsersListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,20 +29,24 @@ class UsersListViewModel @Inject constructor(
     val uiState: StateFlow<UsersListState> = _uiState.asStateFlow()
 
     // input search text
-    private var userName: String = "dinkar1"
+    private var userName: String = ""
 
     // pagination variables
     private var page = 1
-    private val pageSize = 10
+    private val pageSize = 30
     private var currentInputSearchTotalResultSize = 0
     private var isLoadingApiData = false
     // pagination variables end
 
-//    init {
-//        Timber.d("$TAG Initial load users.....")
-//        loadUsers() // TODO remove at the end
-//    }
-
+    init {
+        _uiState.update {
+            // update UI
+            UsersListState(
+                errorMessage = "Input user name to search",
+                isLoading = false
+            )
+        }
+    }
     fun updateLastVisibleIndex(index: Int) {
         _uiState.update { _uiState.value.copy(lastVisibleItemIndex = index) }
     }
@@ -89,7 +94,7 @@ class UsersListViewModel @Inject constructor(
             )
         }
         try {
-            if (userName == null || userName.isEmpty()) {
+            if (userName.isEmpty()) {
                 _uiState.update {
                     // update UI
                     UsersListState(
@@ -106,8 +111,7 @@ class UsersListViewModel @Inject constructor(
                     _uiState.update {
                         // update UI
                         UsersListState(
-                            errorMessage = apiError.message
-                                ?: "Error searching user list",
+                            errorMessage = apiError.message,
                             isLoading = false
                         )
                     }
