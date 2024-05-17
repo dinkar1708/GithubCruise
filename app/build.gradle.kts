@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.Packaging
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -11,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId = "com.jetpack.compose.github.github.cruise"
-        minSdk = 26
+        minSdk = 21
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -60,10 +62,13 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.get()
     }
-    packagingOptions {
+
+    packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
             excludes += "META-INF/gradle/incremental.annotation.processors"
+            excludes += "META-INF/LICENSE.md"
+            excludes += "META-INF/LICENSE-notice.md"
         }
     }
 }
@@ -76,7 +81,7 @@ dependencies {
     // Architecture Components
     implementation(libs.androidx.material3.android)
     implementation(libs.retrofit)
-    implementation(libs.converter.moshi)
+    implementation(libs.retrofit.converter.moshi)
     implementation(libs.logging.interceptor)
     implementation(libs.moshi.kotlin)
     implementation(libs.mockk)
@@ -100,6 +105,9 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewModelCompose)
 
     debugImplementation(composeBom)
+    // preview etc.
+    debugImplementation(libs.androidx.compose.ui.tooling.core)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
 
     // Dependencies for local unit tests
     testImplementation(composeBom)

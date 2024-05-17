@@ -36,10 +36,10 @@ import androidx.navigation.NavHostController
 import com.jetpack.compose.github.github.cruise.R
 import com.jetpack.compose.github.github.cruise.domain.model.User
 import com.jetpack.compose.github.github.cruise.ui.MainDestinations.USER_REPO_SCREEN_ROUTE
+import com.jetpack.compose.github.github.cruise.ui.features.users.view.UsersListView
 import com.jetpack.compose.github.github.cruise.ui.shared.AppActionBarView
 import com.jetpack.compose.github.github.cruise.ui.shared.StateContentBox
 import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
-
 
 /**
  * Created by Dinakar Maurya on 2024/05/12.
@@ -144,7 +144,7 @@ fun SearchBar(
             },
             colors = TextFieldDefaults.colors(
                 focusedTextColor = MaterialTheme.colorScheme.onBackground,
-                unfocusedTextColor = MaterialTheme.colorScheme.surface,
+//                unfocusedTextColor = MaterialTheme.colorScheme.surface,
                 // remove underline
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent
@@ -154,7 +154,7 @@ fun SearchBar(
             label = {
                 Text(
                     stringResource(R.string.user_search_field_help),
-                    style = MaterialTheme.typography.titleLarge,
+                    style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 0.dp)
                 )
             },

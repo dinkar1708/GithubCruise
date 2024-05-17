@@ -132,11 +132,12 @@ class UserRepoScreenViewModel @Inject constructor(
         }
     }
 
-    fun filterRepositories(isShowingForkRepo: Boolean, login: String) = viewModelScope.launch(dispatcher) {
-        _uiStateRepository.update {
-            it.copy(isShowingForkRepo = isShowingForkRepo, login = login)
+    fun filterRepositories(isShowingForkRepo: Boolean, login: String) =
+        viewModelScope.launch(dispatcher) {
+            _uiStateRepository.update {
+                it.copy(isShowingForkRepo = isShowingForkRepo, login = login)
+            }
+            loadUserRepositories()
         }
-        loadUserRepositories()
-    }
 }
 

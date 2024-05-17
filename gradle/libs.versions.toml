@@ -1,22 +1,24 @@
 [versions]
-androidGradlePlugin = "7.4.0"
-androidxActivity = "1.6.1"
-androidxComposeBom = "2023.01.00"
-androidxComposeCompiler = "1.4.3"
-androidxHiltNavigationCompose = "1.0.0"
-androidxLifecycle = "2.6.0-alpha03"
-androidxNavigation = "2.5.3"
-hilt = "2.44.2"
+androidGradlePlugin = "8.4.0"
+androidxActivity = "1.9.0"
+androidxComposeBom = "2024.05.00"
+# (1.5.14) of the Compose Compiler requires Kotlin version 1.9.24
+androidxComposeCompiler = "1.5.14"
+androidxHiltNavigationCompose = "1.2.0"
+# 2.8.0 have issue. Do it later [https://stackoverflow.com/questions/78490378/java-lang-illegalstateexception-compositionlocal-locallifecycleowner-not-presen]
+androidxLifecycle = "2.7.0"
+androidxNavigation = "2.7.7"
+hilt = "2.51.1"
 junit4 = "4.13.2"
-kotlin = "1.8.10"
-kotlinxCoroutines = "1.6.4"
+kotlin = "1.9.24"
+kotlinxCoroutines = "1.8.0"
 timber = "5.0.1"
 material3Android = "1.2.1"
-retrofit = "2.6.0"
-converterMoshi = "2.7.0"
-loggingInterceptor = "4.8.1"
+retrofit = "2.11.0"
+retrofitConverterMoshi = "2.11.0"
+loggingInterceptor = "4.12.0"
 moshiKotlin = "1.12.0"
-mockk = "1.12.0"
+mockk = "1.13.4"
 coilCompose = "2.6.0"
 
 [libraries]
@@ -29,6 +31,8 @@ androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navig
 androidx-lifecycle-runtimeCompose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
 androidx-lifecycle-viewModelCompose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
+androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-compose-ui-tooling-core = { group = "androidx.compose.ui", name = "ui-tooling" }
 hilt-android-core = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
@@ -38,7 +42,7 @@ timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "tim
 # Dependencies of the included build-logic
 androidx-material3-android = { group = "androidx.compose.material3", name = "material3-android", version.ref = "material3Android" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
-converter-moshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "converterMoshi" }
+retrofit-converter-moshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofitConverterMoshi" }
 logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "loggingInterceptor" }
 moshi-kotlin = { group = "com.squareup.moshi", name = "moshi-kotlin", version.ref = "moshiKotlin" }
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }

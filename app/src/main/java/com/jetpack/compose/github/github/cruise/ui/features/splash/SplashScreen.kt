@@ -5,6 +5,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -17,9 +18,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
+import com.jetpack.compose.github.github.cruise.R
 import com.jetpack.compose.github.github.cruise.ui.MainDestinations.USERS_LIST_SCREEN_ROUTE
 import com.jetpack.compose.github.github.cruise.ui.theme.DarkColor
 import com.jetpack.compose.github.github.cruise.ui.theme.MediumDarkColor
@@ -63,9 +64,9 @@ fun SplashScreen(navController: NavController) {
         }
 
         Text(
-            "Github Cruise",
+            stringResource(R.string.splash_animation_github_cruise),
             color = Color.White,
-            style = TextStyle(fontSize = 60.sp),
+            style = MaterialTheme.typography.displayLarge,
             modifier = Modifier.scale(scale.value)
         )
     }

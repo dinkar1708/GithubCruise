@@ -8,6 +8,7 @@ import com.jetpack.compose.github.github.cruise.network.model.ApiErrorResponse
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -22,13 +23,15 @@ import org.junit.Test
 /**
  * Created by Dinakar Maurya on 2024/05/13
  */
+
+@OptIn(ExperimentalCoroutinesApi::class)
 class UsersListViewModelTest {
     private val mockSearchRepositoryUseCase: SearchRepositoryUseCase = mockk()
     private val testDispatcher = StandardTestDispatcher()
     private lateinit var viewModel: UsersListViewModel
 
     private var page = 1
-    private val pageSize = 10
+    private val pageSize = 30
 
     @Before
     fun setUp() {

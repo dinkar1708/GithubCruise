@@ -3,13 +3,17 @@ package com.jetpack.compose.github.github.cruise.ui.features.userrepository.view
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
@@ -29,73 +33,83 @@ import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
 
 @Composable
 fun UserProfileView(userProfile: UserProfile) {
-    Row(
-        Modifier
-            .shadow(10.dp, RoundedCornerShape(8.dp))
-            .background(
-                brush = Brush.linearGradient(
-                    colors = listOf(
-                        MaterialTheme.colorScheme.primaryContainer,
-                        MaterialTheme.colorScheme.onPrimaryContainer,
-                    )
-                ), shape = RoundedCornerShape(4.dp)
-            )
-            .padding(all = 16.dp)
+    Surface(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
     ) {
-        NetworkImageView(
-            modifier = Modifier
-                .size(size = 100.dp)
-                .padding(start = 0.dp),
-            imageUrl = userProfile.avatarUrl,
-            contentDescription = stringResource(
-                R.string.profile_picture_off_icon_content_desc,
-                userProfile.login
-            )
-        )
+        Row(
+            Modifier
+                .shadow(10.dp, RoundedCornerShape(8.dp))
+                .background(
+                    brush = Brush.linearGradient(
+                        colors = listOf(
+                            MaterialTheme.colorScheme.primaryContainer,
+                            MaterialTheme.colorScheme.onPrimaryContainer,
+                        )
+                    ), shape = RoundedCornerShape(4.dp)
+                )
+                .padding(all = 4.dp),
+            verticalAlignment = Alignment.CenterVertically,
 
-        Column(Modifier.padding(start = 16.dp, top = 16.dp)) {
-            Text(
-                text = userProfile.name ?: "",
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.background
-                ),
+            ) {
+            NetworkImageView(
+                modifier = Modifier
+                    .size(size = 100.dp)
+                    .padding(start = 0.dp),
+                imageUrl = userProfile.avatarUrl,
+                contentDescription = stringResource(
+                    R.string.profile_picture_off_icon_content_desc,
+                    userProfile.login
+                )
             )
-            Row(Modifier.padding(top = 16.dp)) {
-                Column(
-                    Modifier
-                        .padding(end = 8.dp)
-                        .weight(1f)
-                ) {
-                    Text(
-                        text = "${userProfile.followers}",
-                        style = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.background),
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                    Text(
-                        text = stringResource(R.string.user_repository_profile_followers),
-                        style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.background),
-                    )
+
+            Column(Modifier.padding(start = 16.dp, top = 8.dp)) {
+                Text(
+                    text = userProfile.name ?: "",
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.background
+                    ),
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Row(Modifier.padding(top = 4.dp)) {
+                    Column(
+                        Modifier
+                            .padding(end = 8.dp)
+                            .weight(1f)
+                    ) {
+                        Text(
+                            text = "${userProfile.followers}",
+                            style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.background),
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                        Text(
+                            text = stringResource(R.string.user_repository_profile_followers),
+                            style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.background),
+                        )
+                    }
+
+                    Column(
+                        Modifier
+                            .weight(1f)
+                    ) {
+                        Text(
+                            text = "${userProfile.following}",
+                            style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.background),
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                        Text(
+                            text = stringResource(R.string.user_repository_profile_following),
+                            style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.background),
+                        )
+                    }
                 }
 
-                Column(
-                    Modifier
-                        .weight(1f)
-                ) {
-                    Text(
-                        text = "${userProfile.following}",
-                        style = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.background),
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                    Text(
-                        text = stringResource(R.string.user_repository_profile_following),
-                        style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.background),
-                    )
-                }
             }
-
         }
     }
 }
