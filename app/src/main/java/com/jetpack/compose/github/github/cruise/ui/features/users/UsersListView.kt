@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,9 +22,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
+import com.jetpack.compose.github.github.cruise.R
 import com.jetpack.compose.github.github.cruise.domain.model.User
 import com.jetpack.compose.github.github.cruise.ui.shared.NetworkImageView
 import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
@@ -44,6 +50,7 @@ fun UsersListView(
     val scrollState = rememberLazyListState()
     var scrolledToEnd by remember { mutableStateOf(false) }
     val TAG = "UsersListView"
+    val navController = rememberNavController()
 
     LazyColumn(
         modifier = modifier.background(MaterialTheme.colorScheme.background),
@@ -88,15 +95,32 @@ fun UsersListView(
 fun UserListItem(user: User, onItemClick: (User) -> Unit) {
     Box(
         modifier = Modifier
+            .padding(vertical = 10.dp)
+            .shadow(10.dp, RoundedCornerShape(8.dp))
+            .background(
+                brush = Brush.linearGradient(
+                    colors = listOf(
+                        MaterialTheme.colorScheme.primaryContainer,
+                        MaterialTheme.colorScheme.primary
+                    ),
+                ), shape = RoundedCornerShape(4.dp)
+            )
             .padding(vertical = 16.dp)
             .clickable { onItemClick(user) }
     ) {
-        Row {
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(start = 8.dp),
+        ) {
 
             NetworkImageView(
-                modifier = Modifier.size(size = 60.dp),
+                modifier = Modifier.size(size = 80.dp),
                 imageUrl = user.avatarUrl,
-                contentDescription = "Profile picture of ${user.login}"
+                contentDescription = stringResource(
+                    R.string.profile_picture_off_icon_content_desc,
+                    user.login
+                )
             )
             Column(
                 modifier = Modifier
@@ -106,11 +130,11 @@ fun UserListItem(user: User, onItemClick: (User) -> Unit) {
                 Text(
                     text = user.login,
                     style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
-                    color = MaterialTheme.colorScheme.onBackground,
+                    color = MaterialTheme.colorScheme.onPrimary,
                 )
                 Text(
-                    text = "Score ${user.score}",
-                    style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.onSurface)
+                    text = stringResource(R.string.user_list_score, user.score),
+                    style = MaterialTheme.typography.labelMedium.copy(color = MaterialTheme.colorScheme.onPrimaryContainer)
                 )
             }
         }
@@ -124,12 +148,10 @@ fun UserListPreview() {
         User(
             id = 1,
             login = "dinkar1708",
-            type = "User",
             avatarUrl = "https://avatars.githubusercontent.com/u/14831652?v=4",
         ), User(
             id = 2,
             login = "dinkar1708",
-            type = "User",
             avatarUrl = "https://avatars.githubusercontent.com/u/14831652?v=4",
         )
     )

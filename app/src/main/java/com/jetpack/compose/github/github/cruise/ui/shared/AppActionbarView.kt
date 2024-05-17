@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
@@ -70,7 +71,9 @@ fun AppActionBarView(
                     ),
                     modifier = if (showBackButton) Modifier
                         .padding(horizontal = 40.dp)
-                        .fillMaxWidth() else Modifier.fillMaxWidth()
+                        .fillMaxWidth() else Modifier.fillMaxWidth(),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
 

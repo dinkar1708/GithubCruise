@@ -7,28 +7,40 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 
 private val DarkColorScheme = darkColorScheme(
-    // The background color of the UI.
-    background = White,
-    // The text color on the background, ensuring readability.
-    onBackground = TextDark,
+    background = BLACK_DARK,
+    onBackground = White,
+
+    primary = WhiteLight,
+    onPrimary = DarkColor,
+
+    primaryContainer = WhiteLight2,
+    onPrimaryContainer = MediumDarkColor,
+
     // secondary text
     onSurface = TextLight,
     // The surface color, used for elements like cards and dialogs.
     surface = CardDialog,
-    // The color for primary containers, such as cards or panels.
-    primaryContainer = Container,
     // small icons, clear button etc.
-    surfaceTint = SmallICons
+    surfaceTint = SmallICons,
+    // Error
+    error = Alert
 )
 
 
 private val LightColorScheme = lightColorScheme(
     background = White,
-    onBackground = TextDark,
+    onBackground = BLACK_DARK,
+
+    primary = DarkColor,
+    onPrimary = WhiteLight,
+
+    primaryContainer = MediumDarkColor,
+    onPrimaryContainer = WhiteLight2,
+
     onSurface = TextLight,
     surface = CardDialog,
-    primaryContainer = Container,
-    surfaceTint = SmallICons
+    surfaceTint = SmallICons,
+    error = Alert
 )
 
 @Composable

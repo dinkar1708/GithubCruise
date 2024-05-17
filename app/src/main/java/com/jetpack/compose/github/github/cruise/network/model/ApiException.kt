@@ -9,5 +9,9 @@ sealed class ApiError(override val message: String) : IOException(message) {
     class ApiException(errorResponse: ApiErrorResponse) : ApiError(errorResponse.message)
     class NetworkError(message: String) : ApiError(message)
     class TimeoutError(message: String) : ApiError(message)
+    class ResourceNotFoundError(message: String) : ApiError(message)
+    class NotModifiedError(message: String) : ApiError(message)
+    class ValidationFailedError(message: String) : ApiError(message)
+    class ServiceUnavailableError(message: String) : ApiError(message)
     object UnknownError : ApiError("Unknown error occurred")
 }

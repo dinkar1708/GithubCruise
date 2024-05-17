@@ -41,8 +41,8 @@ object NetworkDataSourceModule {
 
         val retrofitBuilder: Retrofit.Builder =
             Retrofit.Builder()
-                // TODO handle release testing URL
-                .baseUrl(ApiConstants.GITHUB_API_DEBUG_BASE_URL)
+                // release and debug url setting
+                .baseUrl(ApiConstants.BASE_URL)
                 .addConverterFactory(MoshiConverterFactory.create(moshi))
                 .client(okHttpClient)
 

@@ -3,6 +3,7 @@ package com.jetpack.compose.github.github.cruise.repository.search
 import com.jetpack.compose.github.github.cruise.domain.model.SearchUser
 import com.jetpack.compose.github.github.cruise.domain.model.User
 import com.jetpack.compose.github.github.cruise.network.NetworkDataSource
+import com.jetpack.compose.github.github.cruise.network.model.ApiError
 import io.mockk.coEvery
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
@@ -22,7 +23,6 @@ import org.junit.Test
 /**
  * Created by Dinakar Maurya on 2024/05/13
  */
-// TODO
 class SearchRepositoryImplTest {
     private val mockNetworkDataSource: NetworkDataSource = mockk()
     private val testDispatcher = StandardTestDispatcher()
@@ -32,7 +32,6 @@ class SearchRepositoryImplTest {
     private val user = User(
         id = 1,
         login = "dinkar1708",
-        type = "User",
         avatarUrl = "https://avatars.githubusercontent.com/u/14831652?v=4",
     )
     private val searchUser = SearchUser(2, true, mutableListOf(user))
@@ -49,9 +48,11 @@ class SearchRepositoryImplTest {
     }
 
     @Test
-    fun `test search Users API call success with incomplete result`() {
+    fun `test searchUsers() API call success with result`() {
         runTest {
+            val searchUser = SearchUser(2, false, mutableListOf(user))
             val userName = "dinkar1708"
+            // Given
             // set mock data for user name
             coEvery {
                 mockNetworkDataSource.searchUser(
@@ -60,18 +61,47 @@ class SearchRepositoryImplTest {
                     pageSize = 10
                 )
             } returns searchUser
+
+            // When
             // now call mock api
             val resultFlow = repository.searchUsers(userName = userName, page = 1, pageSize = 10)
             val result = resultFlow.single()
+
+            // Then
+            // test
             // for same user mock response and api response must be same
             assertEquals(searchUser, result)
-            // incomplete result
-            assertTrue(searchUser.incompleteResults)
         }
     }
 
     @Test
-    fun `test search Users API call fails`() {
+    fun `test searchUsers() API call success with incomplete result true`() {
+        runTest {
+            val userName = "dinkar1708"
+            // Given
+            // set mock data for user name
+            coEvery {
+                mockNetworkDataSource.searchUser(
+                    userName = userName,
+                    page = 1,
+                    pageSize = 10
+                )
+            } returns searchUser
+
+            // When
+            // now call mock api
+            val resultFlow = repository.searchUsers(userName = userName, page = 1, pageSize = 10)
+            val result = resultFlow.single()
+
+            // Then
+            // test
+            // incomplete result
+            assertEquals(result.incompleteResults, searchUser.incompleteResults)
+        }
+    }
+
+    @Test
+    fun `test searchUsers() API call unknown host host error`() {
         runTest {
             // Given
             coEvery {
@@ -80,16 +110,14 @@ class SearchRepositoryImplTest {
                     page = 1,
                     pageSize = 10
                 )
-            } throws Exception("Network Error")
+            } throws ApiError.NetworkError("Unknown host error")
             // When
             val resultFlow: Flow<SearchUser> =
                 repository.searchUsers(userName = "dinkar1708", page = 1, pageSize = 10)
             resultFlow.catch { e ->
                 // Then
-                assertTrue(e is Exception)
-                assertTrue(e.message == "Network Error")
-            }.collect { _ ->
-                // do nothing testing error case
+                assertTrue(e is ApiError)
+                assertTrue(e.message == "Unknown host error")
             }
         }
     }

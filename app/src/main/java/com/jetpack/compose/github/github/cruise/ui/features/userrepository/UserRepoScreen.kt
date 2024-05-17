@@ -1,26 +1,39 @@
 package com.jetpack.compose.github.github.cruise.ui.features.userrepository
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
+import com.jetpack.compose.github.github.cruise.R
 import com.jetpack.compose.github.github.cruise.domain.model.User
 import com.jetpack.compose.github.github.cruise.domain.model.UserProfile
 import com.jetpack.compose.github.github.cruise.domain.model.UserRepo
+import com.jetpack.compose.github.github.cruise.ui.MainDestinations.USER_REPO_DETAILS_SCREEN_ROUTE
 import com.jetpack.compose.github.github.cruise.ui.features.userrepository.view.UserProfileView
 import com.jetpack.compose.github.github.cruise.ui.features.userrepository.view.UserRepoListView
 import com.jetpack.compose.github.github.cruise.ui.shared.AppActionBarView
 import com.jetpack.compose.github.github.cruise.ui.shared.StateContentBox
+import com.jetpack.compose.github.github.cruise.ui.shared.utils.CommonUtils
 import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
 
 /**
@@ -28,36 +41,49 @@ import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
  */
 @Composable
 fun UserRepoScreen(
-    viewModel: UserRepoScreenViewModel, onBackClick: () -> Unit
+    navController: NavHostController, viewModel: UserRepoScreenViewModel, login: String
 ) {
     val viewState by viewModel.uiStateRepository.collectAsStateWithLifecycle()
     val viewStateProfile by viewModel.uiStateProfile.collectAsStateWithLifecycle()
 
-    Column {
+    LaunchedEffect(key1 = login) {
+        viewModel.loadApiData(login)
+    }
+
+    Column(
+        modifier =
+        Modifier
+            .background(MaterialTheme.colorScheme.background)
+    ) {
         AppActionBarView(
             modifier = Modifier
                 .fillMaxWidth(),
-            headerText = viewState.selectedUser.login,
+            headerText = login,
             showBackButton = true,
-            onBackClick = onBackClick
+            onBackClick = {
+                navController.popBackStack()
+            }
         )
-        Column(
-            modifier = Modifier
-                .padding(start = 16.dp, end = 16.dp, top = 16.dp)
-                .background(MaterialTheme.colorScheme.background),
-        ) {
-            UserRepoListScreenContentsProfile(
-                isLoading = viewStateProfile.isLoading,
-                userProfile = viewStateProfile.userProfile,
-                errorMessage = viewState.errorMessage
-            )
 
-            UserRepoListScreenContents(
-                isLoading = viewState.isLoading,
-                userRepoList = viewState.userRepoList,
-                errorMessage = viewState.errorMessage
-            )
-        }
+        UserRepoListScreenContentsProfile(
+            isLoading = viewStateProfile.isLoading,
+            userProfile = viewStateProfile.userProfile,
+            errorMessage = viewStateProfile.errorMessage
+        )
+
+        UserRepoListScreenContents(
+            isLoading = viewState.isLoading,
+            userRepoList = viewState.userRepoList,
+            errorMessage = viewState.errorMessage,
+            isShowForkRepo =
+            {
+                viewModel.filterRepositories(it, login)
+            },
+            openRepoDetails = {
+                val encodedUrl = CommonUtils.encodeUrl(it)
+                navController.navigate("$USER_REPO_DETAILS_SCREEN_ROUTE/$encodedUrl")
+            }
+        )
     }
 }
 
@@ -67,45 +93,71 @@ fun UserRepoListScreenContents(
     isLoading: Boolean,
     userRepoList: List<UserRepo>,
     errorMessage: String,
+    isShowForkRepo: (Boolean) -> Unit,
+    openRepoDetails: (String) -> Unit
 ) {
-    Box(
-        modifier = Modifier.padding(top = 16.dp),
-    ) {
-        Text(
-            text = "Repositories",
-            style = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onBackground),
-        )
-    }
+    var isShowingFork by remember { mutableStateOf(false) }
 
-    StateContentBox(
-        Modifier.padding(top = 8.dp),
-        isLoading = isLoading,
-        errorMessage = errorMessage
+    Column(
+        modifier = Modifier.padding(horizontal = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(2.dp)
     ) {
-        UserRepoListView(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .padding(horizontal = 16.dp)
-                .fillMaxWidth(),
-            userRepoList = userRepoList,
-        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = stringResource(
+                    R.string.user_repository_title_repositories,
+                    userRepoList.size
+                ),
+                style = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onBackground)
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Switch(
+                checked = isShowingFork,
+                onCheckedChange = {
+                    isShowingFork = it
+                    isShowForkRepo(isShowingFork)
+                }
+            )
+            Text(
+                text = stringResource(
+                    R.string.user_repository_fork_status,
+                    if (isShowingFork) "On" else "Off"
+                ),
+                style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.onBackground)
+            )
+        }
+
+        StateContentBox(
+            isLoading = isLoading,
+            errorMessage = errorMessage
+        ) {
+            UserRepoListView(
+                modifier = Modifier.fillMaxWidth(),
+                userRepoList = userRepoList,
+                openRepoDetails = openRepoDetails
+            )
+        }
     }
 }
 
 @Composable
 fun UserRepoListScreenContentsProfile(
     isLoading: Boolean,
-    userProfile: UserProfile,
+    userProfile: UserProfile?,
     errorMessage: String,
 ) {
     StateContentBox(
-        Modifier.padding(top = 8.dp),
         isLoading = isLoading,
         errorMessage = errorMessage
     ) {
-        UserProfileView(
-            userProfile
-        )
+        // assume user profile is not null at this point
+        if (userProfile != null) {
+            UserProfileView(
+                userProfile
+            )
+        }
     }
 }
 
@@ -115,14 +167,11 @@ fun UserRepoListHeaderPreview() {
     val user = User(
         id = 1,
         login = "loginuser",
-        type = "User",
-        url = "url",
         avatarUrl = "avatarUrl",
     )
 
     val userRepoList = mutableListOf(
         UserRepo(
-            owner = UserRepo.Owner(login = "dinakr1708", avatarUrl = "url"),
             id = 1,
             name = "Repo",
             language = "JAVA",
@@ -151,7 +200,9 @@ fun UserRepoListHeaderPreview() {
                 UserRepoListScreenContents(
                     isLoading = false,
                     userRepoList = userRepoList,
-                    errorMessage = ""
+                    errorMessage = "",
+                    isShowForkRepo = {},
+                    openRepoDetails = {}
                 )
             }
         }

@@ -12,7 +12,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -21,28 +20,34 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
+import com.jetpack.compose.github.github.cruise.R
 import com.jetpack.compose.github.github.cruise.domain.model.User
+import com.jetpack.compose.github.github.cruise.ui.MainDestinations.USER_REPO_SCREEN_ROUTE
 import com.jetpack.compose.github.github.cruise.ui.shared.AppActionBarView
 import com.jetpack.compose.github.github.cruise.ui.shared.StateContentBox
 import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
+
 
 /**
  * Created by Dinakar Maurya on 2024/05/12.
  */
 @Composable
 fun UsersListScreen(
-    viewModel: UsersListViewModel,
-    onClick: (User) -> Unit
+    navController: NavHostController,
+    viewModel: UsersListViewModel
 ) {
     val viewState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -51,11 +56,13 @@ fun UsersListScreen(
         userList = viewState.userList,
         lastVisibleItemIndex = viewState.lastVisibleItemIndex,
         errorMessage = viewState.errorMessage,
-        onItemClick = onClick,
-        onSearchSubmitted = { viewModel.updateInputString(it) },
+        onItemClick = {
+            navController.navigate("${USER_REPO_SCREEN_ROUTE}/${it.login}")
+        },
+        onSearchSubmitted = { viewModel.searchUsers(it) },
         onClearInput = {
             // clear text
-            viewModel.updateInputString("")
+            viewModel.searchUsers("")
         },
         onListScrolledToEnd = { i ->
             viewModel.updateLastVisibleIndex(i)
@@ -84,7 +91,7 @@ fun UsersListScreenContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 16.dp),
-            headerText = "Users",
+            headerText = stringResource(R.string.users_page_title),
             showBackButton = false
         )
         SearchBar(onSearchSubmitted = onSearchSubmitted, onClearInput)
@@ -110,13 +117,14 @@ fun UsersListScreenContent(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchBar(
     onSearchSubmitted: (String) -> Unit,
     onClearInput: () -> Unit
 ) {
-    var searchText by remember { mutableStateOf("") }
+    // keep search text across screen rotation etc.
+    var searchText by rememberSaveable { mutableStateOf("") }
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     Box(
         modifier = Modifier
@@ -134,9 +142,10 @@ fun SearchBar(
                     }
                 )
             },
-            // This material API is experimental and is likely to change or to be removed in the future.
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = Color.Transparent,
+            colors = TextFieldDefaults.colors(
+                focusedTextColor = MaterialTheme.colorScheme.onBackground,
+                unfocusedTextColor = MaterialTheme.colorScheme.surface,
+                // remove underline
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent
             ),
@@ -144,7 +153,7 @@ fun SearchBar(
             onValueChange = { searchText = it },
             label = {
                 Text(
-                    "Enter user name",
+                    stringResource(R.string.user_search_field_help),
                     style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 0.dp)
                 )
@@ -154,7 +163,10 @@ fun SearchBar(
                 imeAction = ImeAction.Search
             ),
             keyboardActions = KeyboardActions(
-                onSearch = { onSearchSubmitted(searchText) }
+                onSearch = {
+                    onSearchSubmitted(searchText)
+                    keyboardController?.hide()
+                }
             ),
             singleLine = true,
             modifier = Modifier
@@ -179,3 +191,4 @@ fun UserListScreenContentPreview() {
         )
     }
 }
+

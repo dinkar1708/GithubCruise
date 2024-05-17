@@ -1,100 +1,117 @@
 package com.jetpack.compose.github.github.cruise.ui.features.userrepository.view
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.jetpack.compose.github.github.cruise.R
 import com.jetpack.compose.github.github.cruise.domain.model.UserRepo
-import com.jetpack.compose.github.github.cruise.ui.shared.extension.openUrlInBrowser
 import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
 
 /**
  * Created by Dinakar Maurya on 2024/05/14.
  */
 @Composable
-fun UserRepoListView(modifier: Modifier, userRepoList: List<UserRepo>) {
+fun UserRepoListView(
+    modifier: Modifier, userRepoList: List<UserRepo>,
+    openRepoDetails: (String) -> Unit
+) {
     LazyColumn(modifier = modifier) {
         items(userRepoList.size) { index ->
             RepositoryListItem(
-                userRepo = userRepoList[index]
+                userRepo = userRepoList[index],
+                openRepoDetails = openRepoDetails
             )
             HorizontalDivider(color = MaterialTheme.colorScheme.onBackground)
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RepositoryListItem(userRepo: UserRepo) {
-    val context = LocalContext.current
+fun RepositoryListItem(userRepo: UserRepo, openRepoDetails: (String) -> Unit) {
 //    val clicked = remember { mutableStateOf(false) }
-    Card(
+
+    Row(
         modifier = Modifier
-            .fillMaxWidth()
-            .background(color = MaterialTheme.colorScheme.background)
+            .padding(vertical = 8.dp)
             .clickable {
-                context.openUrlInBrowser(userRepo.htmlUrl)
-//                clicked.value = !clicked.value
-            }
-            .padding(vertical = 8.dp),
-        shape = RoundedCornerShape(8.dp),
-
-        ) {
-        Row(
-            modifier = Modifier
-                .background(color = MaterialTheme.colorScheme.background),
+                openRepoDetails(userRepo.htmlUrl)
+            },
 //     .background(color = if (clicked.value) Color.Blue else MaterialTheme.colorScheme.background),
-            verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically
 
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(end = 16.dp)
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(end = 16.dp)
+            Text(
+                text = userRepo.name,
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onBackground
+                ),
+            )
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = userRepo.name,
-                    style = MaterialTheme.typography.bodyLarge.copy(
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onBackground
+                    text = stringResource(
+                        R.string.user_repository_repo_list_language
                     ),
-
-                    )
-
-
-                Text(
-                    text = "Language ${userRepo.language}",
-                    style = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.colorScheme.surfaceTint),
+                    style = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.primary),
 
                     )
                 Text(
-                    text = "* ${userRepo.stargazersCount}",
+                    text = userRepo.language ?: "NA",
                     style = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.colorScheme.surfaceTint),
 
+                    )
+            }
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Icon(
+                    Icons.Filled.Star, "", tint = MaterialTheme.colorScheme.surfaceTint,
+                )
+                Text(
+                    text = stringResource(R.string.user_repository_list_start),
+                    style = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.primary),
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
-                    text = userRepo.description ?: "",
+                    text = "${userRepo.stargazersCount}",
                     style = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.colorScheme.surfaceTint),
-
-                    )
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+            if (!userRepo.description.isNullOrBlank()) {
+                Text(
+                    text = userRepo.description,
+                    style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.surfaceTint),
+                )
             }
         }
     }
@@ -106,7 +123,6 @@ fun UserRepositoryListPreview() {
     val repoList =
         mutableListOf(
             UserRepo(
-                owner = UserRepo.Owner(login = "dinakr1708", avatarUrl = "url"),
                 id = 1,
                 name = "Repo",
                 language = "JAVA",
@@ -122,6 +138,7 @@ fun UserRepositoryListPreview() {
                 .padding(horizontal = 16.dp)
                 .fillMaxWidth(),
             userRepoList = repoList,
+            openRepoDetails = {}
         )
     }
 }

@@ -24,7 +24,7 @@ class NetworkDataSourceImpl(
         page: Int,
         pageSize: Int,
     ): List<UserRepo> {
-        return api.getUserRepositories(userName, page, pageSize)
+        return api.getUserRepositories(userName)
     }
 
     override suspend fun getUserProfile(userName: String): UserProfile {
