@@ -10,7 +10,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -25,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.jetpack.compose.github.github.cruise.R
 import com.jetpack.compose.github.github.cruise.domain.model.UserRepo
+import com.jetpack.compose.github.github.cruise.ui.shared.HorizontalLineView
 import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
 
 /**
@@ -43,7 +43,7 @@ fun UserRepoListView(
                     userRepo = userRepo,
                     openRepoDetails = openRepoDetails
                 )
-                HorizontalDivider(color = MaterialTheme.colorScheme.onBackground)
+                HorizontalLineView()
             }
         }
     }
@@ -75,6 +75,8 @@ fun RepositoryListItem(userRepo: UserRepo, openRepoDetails: (String) -> Unit) {
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onBackground
                 ),
+                maxLines = 3,
+                overflow = TextOverflow.Ellipsis
             )
 
             Row(
@@ -103,18 +105,18 @@ fun RepositoryListItem(userRepo: UserRepo, openRepoDetails: (String) -> Unit) {
                 Text(
                     text = stringResource(R.string.user_repository_list_start),
                     style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.primary),
-                    overflow = TextOverflow.Ellipsis
                 )
                 Text(
-                    text = "${userRepo.stargazersCount}",
+                    text = userRepo.stargazersCount,
                     style = MaterialTheme.typography.bodySmall.copy(color = MaterialTheme.colorScheme.surfaceTint),
-                    overflow = TextOverflow.Ellipsis
                 )
             }
             if (!userRepo.description.isNullOrBlank()) {
                 Text(
                     text = userRepo.description,
                     style = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.surfaceTint),
+                    maxLines = 5,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
         }
@@ -131,7 +133,7 @@ fun UserRepositoryListPreview() {
                 name = "Repo",
                 language = "JAVA",
                 stargazersCount = "10",
-                description = "Android Repo Desc",
+                description = "Android Repo Desc Android Repo Desc Android Repo Desc",
                 fork = false
             )
         )

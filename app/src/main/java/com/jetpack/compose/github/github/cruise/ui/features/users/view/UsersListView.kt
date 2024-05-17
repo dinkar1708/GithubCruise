@@ -28,6 +28,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.jetpack.compose.github.github.cruise.R
@@ -50,7 +51,7 @@ fun UsersListView(
 ) {
     val scrollState = rememberLazyListState()
     var scrolledToEnd by remember { mutableStateOf(false) }
-    val TAG = "UsersListView"
+    val tag = "UsersListView"
 
     LazyColumn(modifier = modifier, state = scrollState) {
         itemsIndexed(userList) { _, user ->
@@ -67,7 +68,7 @@ fun UsersListView(
                 if (visibleItems.lastOrNull()?.index == (userList.size - 1) && !scrolledToEnd) {
                     val lastVisibleItemIndex =
                         scrollState.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0
-                    Timber.d("$TAG SET variable user scrolled to last page...lastVisibleItemIndex $lastVisibleItemIndex user size ${userList.size}")
+                    Timber.d("$tag SET variable user scrolled to last page...lastVisibleItemIndex $lastVisibleItemIndex user size ${userList.size}")
                     // scrolled to ended true
                     scrolledToEnd = true
                     // Set a variable in the ViewModel to save it for the next recomposition.
@@ -84,7 +85,7 @@ fun UsersListView(
         if (lastVisibleItemIndex > 0) {
             // This can scroll, but it is not accurate.
             scrollState.scrollToItem(lastVisibleItemIndex)
-            Timber.d("$TAG scrolled.......... ")
+            Timber.d("$tag scrolled.......... ")
         }
     }
 }
@@ -94,7 +95,7 @@ fun UsersListView(
 fun UserListItem(user: User, onItemClick: (User) -> Unit) {
     Box(
         modifier = Modifier
-            .padding(vertical = 10.dp)
+            .padding(vertical = 8.dp)
             .shadow(10.dp, RoundedCornerShape(8.dp))
             .background(
                 brush = Brush.linearGradient(
@@ -104,13 +105,12 @@ fun UserListItem(user: User, onItemClick: (User) -> Unit) {
                     ),
                 ), shape = RoundedCornerShape(4.dp)
             )
-            .padding(vertical = 16.dp)
             .clickable { onItemClick(user) }
     ) {
         Row(
             Modifier
                 .fillMaxWidth()
-                .padding(start = 8.dp),
+                .padding(start = 8.dp, end = 8.dp),
         ) {
 
             NetworkImageView(
@@ -130,6 +130,8 @@ fun UserListItem(user: User, onItemClick: (User) -> Unit) {
                     text = user.login,
                     style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
                     color = MaterialTheme.colorScheme.onPrimary,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
                 )
                 Text(
                     text = stringResource(R.string.user_list_score, user.score),
@@ -150,7 +152,7 @@ fun UserListPreview() {
             avatarUrl = "https://avatars.githubusercontent.com/u/14831652?v=4",
         ), User(
             id = 2,
-            login = "dinkar1708",
+            login = "dipsujidipsujidipsujidipsujidipsujidipsujidipsuji",
             avatarUrl = "https://avatars.githubusercontent.com/u/14831652?v=4",
         )
     )

@@ -4,7 +4,7 @@
 
 **User List API**
 - **Doc:** https://docs.github.com/en/rest/search/search?apiVersion=2022-11-28#search-users
-- **URL:** `https://api.github.com/search/users?q="dinkar1708"`( with page     // https://api.github.com/search/users?q=dinkar1708&page=1&per_page=1
+- **URL:** `https://api.github.com/search/users?q="dinkar1708"`( with pagination // https://api.github.com/search/users?q=dinkar1708&page=1&per_page=1
   )
 - **Header:**
     - `"X-GitHub-Api-Version": "2022-11-28"`
