@@ -1,5 +1,3 @@
-import com.android.build.api.dsl.Packaging
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -36,7 +34,7 @@ android {
             buildConfigField("boolean", "DEBUG", "false")
             buildConfigField("String", "API_BASE_URL", "\"https://release.api.github.com\"")
             buildConfigField("String", "API_VERSION", "\"2022-11-28\"")
-            // un comment it to run release build to test only
+            // un comment it to run release build to test only using android studio
 //            signingConfig = signingConfigs.getByName("debug")
         }
         debug {

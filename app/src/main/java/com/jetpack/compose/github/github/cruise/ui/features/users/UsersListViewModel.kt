@@ -47,6 +47,7 @@ class UsersListViewModel @Inject constructor(
             )
         }
     }
+
     fun updateLastVisibleIndex(index: Int) {
         _uiState.update { _uiState.value.copy(lastVisibleItemIndex = index) }
     }

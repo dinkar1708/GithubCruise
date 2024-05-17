@@ -13,5 +13,5 @@ sealed class ApiError(override val message: String) : IOException(message) {
     class NotModifiedError(message: String) : ApiError(message)
     class ValidationFailedError(message: String) : ApiError(message)
     class ServiceUnavailableError(message: String) : ApiError(message)
-    object UnknownError : ApiError("Unknown error occurred")
+    data object UnknownError : ApiError("Unknown error occurred")
 }

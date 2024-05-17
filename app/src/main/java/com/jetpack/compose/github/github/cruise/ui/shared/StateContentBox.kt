@@ -21,7 +21,7 @@ fun StateContentBox(
     errorMessage: String,
     content: @Composable () -> Unit
 ) {
-    Box(modifier.padding(all = 8.dp),  contentAlignment = Alignment.TopStart ) {
+    Box(modifier.padding(all = 8.dp), contentAlignment = Alignment.TopStart) {
         when {
             isLoading -> {
                 SharedProgressIndicator()

@@ -7,7 +7,7 @@ import com.jetpack.compose.github.github.cruise.BuildConfig
  */
 class ApiConstants {
     companion object {
-        val BASE_URL: String = BuildConfig.API_BASE_URL
-        val API_VERSION: String = BuildConfig.API_VERSION
+        const val BASE_URL: String = BuildConfig.API_BASE_URL
+        const val API_VERSION: String = BuildConfig.API_VERSION
     }
 }

@@ -34,6 +34,7 @@ import com.jetpack.compose.github.github.cruise.ui.MainDestinations.USER_REPO_DE
 import com.jetpack.compose.github.github.cruise.ui.features.userrepository.view.UserProfileView
 import com.jetpack.compose.github.github.cruise.ui.features.userrepository.view.UserRepoListView
 import com.jetpack.compose.github.github.cruise.ui.shared.AppActionBarView
+import com.jetpack.compose.github.github.cruise.ui.shared.HorizontalLineView
 import com.jetpack.compose.github.github.cruise.ui.shared.StateContentBox
 import com.jetpack.compose.github.github.cruise.ui.shared.utils.CommonUtils
 import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
@@ -71,6 +72,9 @@ fun UserRepoScreen(
             userProfile = viewStateProfile.userProfile,
             errorMessage = viewStateProfile.errorMessage
         )
+
+        HorizontalLineView()
+
         UserRepoListScreenContents(
             isLoading = viewState.isLoading,
             userRepoList = viewState.userRepoList,
@@ -198,12 +202,12 @@ fun UserRepoListHeaderPreview() {
                 UserRepoListScreenContentsProfile(
                     userProfile = userProfile,
                     isLoading = false,
-                    errorMessage = "sdfsdfdf"
+                    errorMessage = "Dinkar Maurya"
                 )
                 UserRepoListScreenContents(
                     isLoading = false,
                     userRepoList = userRepoList,
-                    errorMessage = "sdfsdfd",
+                    errorMessage = "Error occured.",
                     isShowForkRepo = {},
                     openRepoDetails = {}
                 )
