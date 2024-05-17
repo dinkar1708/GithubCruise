@@ -6,6 +6,9 @@ This project brings together modern tools and best practices in Android developm
 
 # Check out demo screen shots and videos here
 ## Details [demo-screenshots-video](https://github.com/dinkar1708/GithubCruise/tree/main/screenshots)
+- Short Size Video
+https://github.com/dinkar1708/GithubCruise/assets/14831652/08b8def1-3dff-4dc0-9326-53ee7a78f284
+
 
 ## Table of Contents
 1. [Setup](#setup)
